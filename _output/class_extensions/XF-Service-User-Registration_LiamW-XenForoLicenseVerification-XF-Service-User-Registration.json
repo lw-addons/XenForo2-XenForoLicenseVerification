@@ -1,0 +1,6 @@
+{
+    "from_class": "XF\\Service\\User\\Registration",
+    "to_class": "LiamW\\XenForoLicenseVerification\\XF\\Service\\User\\Registration",
+    "execute_order": 10,
+    "active": true
+}

@@ -1,0 +1,1 @@
+Please enter the domain associated with the above license token.
