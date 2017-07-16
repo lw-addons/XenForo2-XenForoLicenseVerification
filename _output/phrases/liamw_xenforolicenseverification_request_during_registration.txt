@@ -1,0 +1,1 @@
+Request XenForo license details during registration

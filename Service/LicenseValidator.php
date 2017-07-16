@@ -25,8 +25,12 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 	protected $rawResponse;
 
 	protected $options = [
-		'requireUniqueCustomer' => false
+		'requireUniqueCustomer' => false,
+		'requireUniqueLicense' => false,
+		'checkDomain' => true
 	];
+
+	protected $errors = [];
 
 	public function __construct(\XF\App $app, $token, $domain = null, array $options = [])
 	{
@@ -42,6 +46,16 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 	{
 		$this->checkDomain = $this->domain != null;
 		$this->httpClient = $this->app->http()->client();
+
+		if (!$this->token || strlen($this->token) != 32 || !preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $this->token))
+		{
+			$errors[] = \XF::phraseDeferred('liamw_xenforolicenseverification_invalid_verification_token');
+		}
+
+		if ($this->options['checkDomain'] && !$this->domain)
+		{
+			$errors[] = \XF::phraseDeferred('liamw_xenforolicenseverification_invalid_domain');
+		}
 	}
 
 	/**
@@ -51,6 +65,11 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 	 */
 	public function validate()
 	{
+		if ($this->errors)
+		{
+			return $this;
+		}
+
 		try
 		{
 			$this->rawResponse = $this->httpClient->post(self::VALIDATION_URL, [
@@ -73,8 +92,15 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 		return $this;
 	}
 
-	public function isValid($domainMatch = null, &$error = '')
+	public function isValid(&$error = '')
 	{
+		if ($this->errors)
+		{
+			$error = reset($this->errors);
+
+			return false;
+		}
+
 		if (!$this->licenseExists())
 		{
 			$error = \XF::phraseDeferred('liamw_xenforolicensevalidation_license_not_found');
@@ -89,16 +115,24 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 			return false;
 		}
 
-		if ($domainMatch === null)
-		{
-			$domainMatch = isset($this->domain);
-		}
-
-		if ($domainMatch && !$this->domainMatches())
+		if ($this->options['checkDomain'] && !$this->domainMatches())
 		{
 			$error = \XF::phraseDeferred('liamw_xenforolicenseverification_invalid_domain');
 
 			return false;
+		}
+
+		if ($this->options['requireUniqueLicense'])
+		{
+			$existingUsers = $this->finder('XF:User')->where('XenForoLicense.license_token', $this->license_token)
+				->fetch();
+
+			if ($existingUsers->count())
+			{
+				$error = \XF::phraseDeferred('liamw_xenforolicensevalidation_license_token_not_unique');
+
+				return false;
+			}
 		}
 
 		if ($this->options['requireUniqueCustomer'])

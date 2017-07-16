@@ -1,0 +1,16 @@
+<xf:checkboxrow value="{$option.option_value.type}"
+                hint="{$editHtml}"
+                explain="{$explainHtml}"
+                html="{$listedHtml}">
+
+    <xf:option name="{$inputName}[request]" selected="{$option.option_value.request}"
+               label="{{ phrase('liamw_xenforolicenseverification_request_during_registration') }}">
+        <xf:dependent>
+            <xf:checkbox>
+                <xf:option name="{$inputName}[require]" selected="{$option.option_value.require}"
+                           label="{{ phrase('liamw_xenforolicenseverification_require_during_registration') }}"/>
+            </xf:checkbox>
+        </xf:dependent>
+    </xf:option>
+
+</xf:checkboxrow>

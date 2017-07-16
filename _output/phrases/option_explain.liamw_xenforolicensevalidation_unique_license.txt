@@ -1,0 +1,1 @@
+If checked, the license token value from the API will be checked for uniqueness when validating XenForo licenses.

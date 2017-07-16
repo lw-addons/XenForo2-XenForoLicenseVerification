@@ -4,24 +4,31 @@
 <xf:wrap template="account_wrapper"/>
 
 <xf:if is="{$xf.visitor.XenForoLicense}">
-    <p>{{ phrase('liamw_xenforolicenseverification_your_license_has_already_been_verified') }}</p>
-<xf:else/>
+    <div class="block-container">
+        <div class="block-body">
+            <p>{{ phrase('liamw_xenforolicenseverification_your_license_has_already_been_verified') }}</p>
+        </div>
+    </div>
+    <xf:else/>
     <xf:form action="{{ link('account/xenforo-license/process') }}" class="block" ajax="true">
         <div class="block-container">
             <div class="block-body">
-                <xf:macro name="liamw_xenforolicense_form_fields"/>
+                <xf:macro name="liamw_xenforolicense_form_fields" arg-context="account"/>
 
-                <xf:submitrow label="{{ phrase('apply') }}" icon="apply" />
+                <xf:submitrow label="{{ phrase('apply') }}" icon="apply"/>
             </div>
         </div>
     </xf:form>
 </xf:if>
 
-<xf:macro name="liamw_xenforolicense_form_fields">
+<xf:macro name="liamw_xenforolicense_form_fields" arg-context="!">
     <xf:textboxrow name="license_validation[token]"
                    label="{{ phrase('liamw_xenforolicensevalidation_validation_token') }}"
-                   explain="{{ phrase('liamw_xenforolicensevalidation_validation_token_explain') }}"/>
-    <xf:textboxrow name="license_validation[domain]"
-                   label="{{ phrase('liamw_xenforolicensevalidation_validation_domain') }}"
-                   explain="{{ phrase('liamw_xenforolicensevalidation_validation_domain_explain') }}"/>
+                   explain="{{ phrase('liamw_xenforolicensevalidation_validation_token_explain') }}"
+                   hint="{{ ($context == 'registration' ? ($xf.options.liamw_xenforolicensevalidation_registration.require ? phrase('required') : phrase('optional')) : '') }}"/>
+    <xf:if is="{$xf.options.liamw_xenforolicensevalidation_check_domain}">
+        <xf:textboxrow name="license_validation[domain]"
+                       label="{{ phrase('liamw_xenforolicensevalidation_validation_domain') }}"
+                       explain="{{ phrase('liamw_xenforolicensevalidation_validation_domain_explain') }}"/>
+    </xf:if>
 </xf:macro>

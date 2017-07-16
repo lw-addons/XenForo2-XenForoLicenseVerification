@@ -22,8 +22,8 @@ class Setup extends AbstractSetup
 			$table->addColumn('user_id', 'int')->primaryKey();
 			$table->addColumn('customer_token', 'varchar', 50);
 			$table->addColumn('license_token', 'varchar', 50);
-			$table->addColumn('domain', 'varchar', 255);
-			$table->addColumn('domain_match', 'bool');
+			$table->addColumn('domain', 'varchar', 255)->nullable();
+			$table->addColumn('domain_match', 'bool')->nullable();
 			$table->addColumn('can_transfer', 'bool');
 			$table->addColumn('check_date', 'int');
 		});

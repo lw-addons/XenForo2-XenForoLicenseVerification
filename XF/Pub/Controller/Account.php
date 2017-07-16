@@ -32,23 +32,15 @@ class Account extends XFCP_Account
 			]
 		]);
 
-		// Prevent definitely wrong token from being checked and using up requests
-		if (!$input['license_validation']['token'] || strlen($input['license_validation']['token']) != 32 || !preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $input['license_validation']['token']))
-		{
-			return $this->error(\XF::phrase('liamw_xenforolicenseverification_invalid_verification_token'));
-		}
-
-		if (!$input['license_validation']['domain'])
-		{
-			return $this->error(\XF::phrase('liamw_xenforolicenseverification_invalid_domain'));
-		}
-
 		/** @var \LiamW\XenForoLicenseVerification\Service\LicenseValidator $validationService */
 		$validationService = $this->service('LiamW\XenForoLicenseVerification:LicenseValidator', $input['license_validation']['token'], $input['license_validation']['domain'], [
-			'requireUniqueCustomer' => $this->app->options()->liamw_xenforolicensevalidation_unique_customer
+			'requireUniqueCustomer' => $this->app->options()->liamw_xenforolicensevalidation_unique_customer,
+			'requireUniqueLicense' => $this->app->options()->liamw_xenforolicensevalidation_unique_license,
+			'checkDomain' => $this->app()
+				->options()->liamw_xenforolicensevalidation_check_domain
 		]);
 
-		if (!$validationService->validate()->isValid(true, $error))
+		if (!$validationService->validate()->isValid($error))
 		{
 			return $this->error($error);
 		}

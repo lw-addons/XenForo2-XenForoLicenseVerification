@@ -8,33 +8,35 @@ class Registration extends XFCP_Registration
 	{
 		parent::applyExtraValidation();
 
-		// Prevent definitely wrong token from being checked and using up requests
-		if (!$validationData['token'] || strlen($validationData['token']) != 32 || !preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $validationData['token']))
+		if ($this->app->options()->liamw_xenforolicensevalidation_registration['request'])
 		{
-			$this->user->error(\XF::phrase('liamw_xenforolicenseverification_invalid_verification_token'));
+			if ($this->app->options()->liamw_xenforolicensevalidation_registration['require'] && !$validationData['token'])
+			{
+				$this->user->error(\XF::phrase('liamw_xenforolicenseverification_invalid_verification_token'));
 
-			return;
-		}
+				return;
+			}
+			else if (!$validationData['token'])
+			{
+				return;
+			}
 
-		if (!$validationData['domain'])
-		{
-			$this->user->error(\XF::phrase('liamw_xenforolicenseverification_invalid_domain'));
+			/** @var \LiamW\XenForoLicenseVerification\Service\LicenseValidator $validationService */
+			$validationService = $this->service('LiamW\XenForoLicenseVerification:LicenseValidator', $validationData['token'], $validationData['domain'], [
+				'requireUniqueCustomer' => $this->app->options()->liamw_xenforolicensevalidation_unique_customer,
+				'requireUniqueLicense' => $this->app->options()->liamw_xenforolicensevalidation_unique_license,
+				'checkDomain' => $this->app
+					->options()->liamw_xenforolicensevalidation_check_domain
+			]);
 
-			return;
-		}
-
-		/** @var \LiamW\XenForoLicenseVerification\Service\LicenseValidator $validationService */
-		$validationService = $this->service('LiamW\XenForoLicenseVerification:LicenseValidator', $validationData['token'], $validationData['domain'], [
-			'requireUniqueCustomer' => $this->app->options()->liamw_xenforolicensevalidation_unique_customer
-		]);
-
-		if (!$validationService->validate()->isValid(true, $error))
-		{
-			$this->user->error($error);
-		}
-		else
-		{
-			$validationService->setDetailsOnUser($this->user);
+			if ($validationService->validate()->isValid($error))
+			{
+				$validationService->setDetailsOnUser($this->user);
+			}
+			else
+			{
+				$this->user->error($error);
+			}
 		}
 	}
 
@@ -42,9 +44,6 @@ class Registration extends XFCP_Registration
 	{
 		parent::setFromInput($input);
 
-		if ($input['license_validation'])
-		{
-			$this->validateXenForoLicense($input['license_validation']);
-		}
+		$this->validateXenForoLicense($input['license_validation']);
 	}
 }

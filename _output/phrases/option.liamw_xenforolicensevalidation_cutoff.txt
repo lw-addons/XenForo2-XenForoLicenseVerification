@@ -1,1 +1,1 @@
-Validation expiry period
+Validation expiry period (days)

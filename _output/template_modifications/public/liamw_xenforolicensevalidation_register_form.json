@@ -5,5 +5,5 @@
     "enabled": true,
     "action": "str_replace",
     "find": "<xf:if is=\"$xf.visitor.isShownCaptcha()\">",
-    "replace": "<hr class=\"formRowSep\" />\n\n<xf:macro template=\"liamw_xenforolicenseverification_verify_license\" name=\"liamw_xenforolicense_form_fields\" />\n\n<hr class=\"formRowSep\" />\n$0"
+    "replace": "<xf:if is=\"{$xf.options.liamw_xenforolicensevalidation_registration.request}\">\n\t<hr class=\"formRowSep\" />\n\n\t<xf:macro template=\"liamw_xenforolicenseverification_verify_license\" name=\"liamw_xenforolicense_form_fields\" arg-context=\"registration\" />\n\n\t<hr class=\"formRowSep\" />\n</xf:if>\n$0"
 }

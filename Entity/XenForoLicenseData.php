@@ -31,11 +31,13 @@ class XenForoLicenseData extends Entity
 			'domain' => [
 				'type' => self::STR,
 				'maxLength' => 255,
-				'required' => true
+				'required' => true,
+				'nullable' => true
 			],
 			'domain_match' => [
 				'type' => self::BOOL,
-				'required' => true
+				'required' => true,
+				'nullable' => true
 			],
 			'can_transfer' => [
 				'type' => self::BOOL,
