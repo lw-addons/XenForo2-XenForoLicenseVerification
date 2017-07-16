@@ -1,1 +1,0 @@
-The validation domain you entered is invalid or doesn't match the validation token.

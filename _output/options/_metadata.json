@@ -1,6 +1,12 @@
 {
-    "liamw_xenforolicensevalidation_add_usergroup.json": {
-        "hash": "699599b83048d871e6fde3eceebfeec8"
+    "liamw_xenforolicensevalidation_cutoff.json": {
+        "hash": "3479503ff56aaffa9bbd7758ca0209d1"
+    },
+    "liamw_xenforolicensevalidation_licensed_usergroup.json": {
+        "hash": "e8b6d5fc326dae32b1dc0f129290e157"
+    },
+    "liamw_xenforolicensevalidation_transferable_group.json": {
+        "hash": "e8b6d5fc326dae32b1dc0f129290e157"
     },
     "liamw_xenforolicensevalidation_unique_customer.json": {
         "hash": "d04f07273b50e63d6739ce5ca27ee57d"

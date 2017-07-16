@@ -1,0 +1,1 @@
+Your XenForo license verification has expired. Please <a href="{url}" class="fauxBlockLink-blockLink">reverify your license</a> to regain access to sensitive areas.

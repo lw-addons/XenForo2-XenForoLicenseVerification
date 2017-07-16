@@ -1,1 +1,1 @@
-The customer token associated with the provided license token is associated with an existing user. If you believe this is an error, please contact the board administrator using the contact form link in the footer.
+The XenForo customer account associated with the provided license token is associated with an existing user on this board. If you believe this shouldn't be the case, please contact us using the 'Contact us' link in the footer.

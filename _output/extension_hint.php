@@ -5,6 +5,7 @@
 
 namespace LiamW\XenForoLicenseVerification\XF\Pub\Controller
 {
+	class XFCP_Account extends \XF\Pub\Controller\Account {}
 	class XFCP_Register extends \XF\Pub\Controller\Register {}
 }
 

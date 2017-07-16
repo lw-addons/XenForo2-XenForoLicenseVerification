@@ -8,18 +8,22 @@ class LicenseValidationExpiry
 	{
 		$validationCutoff = \XF::$time - (\XF::app()->options()->liamw_xenforolicensevalidation_cutoff * 24 * 60 * 60);
 
-		$expiredUsers = \XF::app()->finder('XF:User')->where('xf_validation_date', '<=', $validationCutoff)->fetch();
+		$expiredUsers = \XF::app()->finder('XF:User')->where('XenForoLicense.check_date', '<=', $validationCutoff)
+			->fetch();
 
 		/** @var \XF\Entity\User $expiredUser */
 		foreach ($expiredUsers AS $expiredUser)
 		{
-			$expiredUser->xf_customer_token = null;
-			$expiredUser->xf_validation_date = null;
+			$expiredUser->XenForoLicense->delete();
 
 			\XF::app()->service('XF:User\UserGroupChange')
 				->removeUserGroupChange($expiredUser->user_id, 'xfLicenseValid');
+			\XF::app()->service('XF:User\UserGroupChange')
+				->removeUserGroupChange($expiredUser->user_id, 'xfLicenseTransferable');
 
-			$expiredUser->save();
+			/** @var \XF\Repository\UserAlert $alertRepo */
+			$alertRepo = \XF::repository('XF:UserAlert');
+			$alertRepo->alert($expiredUser, 0, '', 'user', $expiredUser->user_id, 'xflicenseverification_lapsed');
 		}
 	}
 }

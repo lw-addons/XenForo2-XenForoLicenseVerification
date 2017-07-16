@@ -4,21 +4,19 @@ namespace LiamW\XenForoLicenseVerification\XF\Service\User;
 
 class Registration extends XFCP_Registration
 {
-	protected $licenseValidation = [];
-
-	protected function applyExtraValidation()
+	protected function validateXenForoLicense(array $validationData)
 	{
 		parent::applyExtraValidation();
 
 		// Prevent definitely wrong token from being checked and using up requests
-		if (!$this->licenseValidation['token'] || strlen($this->licenseValidation['token']) != 32 || !preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $this->licenseValidation['token']))
+		if (!$validationData['token'] || strlen($validationData['token']) != 32 || !preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $validationData['token']))
 		{
 			$this->user->error(\XF::phrase('liamw_xenforolicenseverification_invalid_verification_token'));
 
 			return;
 		}
 
-		if (!$this->licenseValidation['domain'])
+		if (!$validationData['domain'])
 		{
 			$this->user->error(\XF::phrase('liamw_xenforolicenseverification_invalid_domain'));
 
@@ -26,7 +24,7 @@ class Registration extends XFCP_Registration
 		}
 
 		/** @var \LiamW\XenForoLicenseVerification\Service\LicenseValidator $validationService */
-		$validationService = $this->service('LiamW\XenForoLicenseVerification:LicenseValidator', $this->licenseValidation['token'], $this->licenseValidation['domain'], [
+		$validationService = $this->service('LiamW\XenForoLicenseVerification:LicenseValidator', $validationData['token'], $validationData['domain'], [
 			'requireUniqueCustomer' => $this->app->options()->liamw_xenforolicensevalidation_unique_customer
 		]);
 
@@ -44,6 +42,9 @@ class Registration extends XFCP_Registration
 	{
 		parent::setFromInput($input);
 
-		$this->licenseValidation = $input['license_validation'];
+		if ($input['license_validation'])
+		{
+			$this->validateXenForoLicense($input['license_validation']);
+		}
 	}
 }

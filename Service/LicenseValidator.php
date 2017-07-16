@@ -96,14 +96,15 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 
 		if ($domainMatch && !$this->domainMatches())
 		{
-			$error = \XF::phraseDeferred('liamw_xenforolicensevalidation_domain_not_match_license');
+			$error = \XF::phraseDeferred('liamw_xenforolicenseverification_invalid_domain');
 
 			return false;
 		}
 
 		if ($this->options['requireUniqueCustomer'])
 		{
-			$existingUsers = $this->finder('XF:User')->where('xf_customer_token', $this->customer_token)->fetch();
+			$existingUsers = $this->finder('XF:User')->where('XenForoLicense.customer_token', $this->customer_token)
+				->fetch();
 
 			if ($existingUsers->count())
 			{
@@ -123,19 +124,28 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 			throw new \BadMethodCallException("Cannot set details on user when license isn't valid.");
 		}
 
-		$user->bulkSet([
-			'xf_customer_token' => $this->customer_token,
-			'xf_validation_date' => \XF::$time
-		], [
-			'forceSet' => true
+		$licenseData = $user->getRelationOrDefault('XenForoLicense');
+		$licenseData->bulkSet([
+			'customer_token' => $this->customer_token,
+			'license_token' => $this->license_token,
+			'can_transfer' => $this->can_transfer,
+			'domain' => $this->test_domain,
+			'domain_match' => $this->domain_match,
+			'check_date' => \XF::$time
 		]);
 
 		\XF::runLater(function () use ($user)
 		{
-			if (\XF::options()->liamw_xenforolicensevalidation_add_usergroup)
+			if (\XF::options()->liamw_xenforolicensevalidation_licensed_usergroup)
 			{
 				\XF::app()->service('XF:User\UserGroupChange')
-					->addUserGroupChange($user->user_id, 'xfLicenseValid', \XF::options()->liamw_xenforolicensevalidation_add_usergroup);
+					->addUserGroupChange($user->user_id, 'xfLicenseValid', \XF::options()->liamw_xenforolicensevalidation_licensed_usergroup);
+			}
+
+			if (\XF::options()->liamw_xenforolicensevalidation_transferable_group && $this->can_transfer)
+			{
+				\XF::app()->service('XF:User\UserGroupChange')
+					->addUserGroupChange($user->user_id, 'xfLicenseTransferable', \XF::options()->liamw_xenforolicensevalidation_transferable_group);
 			}
 		});
 	}
@@ -167,12 +177,12 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 
 	public function offsetSet($offset, $value)
 	{
-		throw new \Exception("Cannot set values on the LicenseValidator");
+		throw new \BadMethodCallException("Cannot set values on the LicenseValidator");
 	}
 
 	public function offsetUnset($offset)
 	{
-		unset($this->responseJson[$offset]);
+		throw new \BadMethodCallException("Cannot unset values on the LicenseValidator");
 	}
 
 	function __get($name)

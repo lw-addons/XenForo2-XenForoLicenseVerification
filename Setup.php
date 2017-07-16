@@ -7,6 +7,7 @@ use XF\AddOn\StepRunnerInstallTrait;
 use XF\AddOn\StepRunnerUninstallTrait;
 use XF\AddOn\StepRunnerUpgradeTrait;
 use XF\Db\Schema\Alter;
+use XF\Db\Schema\Create;
 
 class Setup extends AbstractSetup
 {
@@ -16,12 +17,20 @@ class Setup extends AbstractSetup
 
 	public function installStep1()
 	{
-		$this->schemaManager()->alterTable('xf_user', function (Alter $table)
+		$this->schemaManager()->createTable('xf_liamw_xenforo_license_data', function (Create $table)
 		{
-			$table->addColumn('xf_customer_token', 'varchar', 50)->nullable()
-				->comment("Added by XenForo License Validation");
-			$table->addColumn('xf_validation_date', 'int')->setDefault(0)
-				->comment("Added by XenForo License Validation");
+			$table->addColumn('user_id', 'int')->primaryKey();
+			$table->addColumn('customer_token', 'varchar', 50);
+			$table->addColumn('license_token', 'varchar', 50);
+			$table->addColumn('domain', 'varchar', 255);
+			$table->addColumn('domain_match', 'bool');
+			$table->addColumn('can_transfer', 'bool');
+			$table->addColumn('check_date', 'int');
 		});
+	}
+
+	public function uninstallStep1()
+	{
+		$this->schemaManager()->dropTable('xf_liamw_xenforo_license_data');
 	}
 }

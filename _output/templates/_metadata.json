@@ -1,0 +1,12 @@
+{
+    "public/alert_user_xflicenseverification_lapsed.html": {
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "4560a145dbbf65a1c29d708f8d5fb58e"
+    },
+    "public/liamw_xenforolicenseverification_verify_license.html": {
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "332b0e5c970651bf314b00a885fd5900"
+    }
+}
