@@ -27,7 +27,8 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 	protected $options = [
 		'requireUniqueCustomer' => false,
 		'requireUniqueLicense' => false,
-		'checkDomain' => true
+		'checkDomain' => true,
+		'recheckUserId' => null
 	];
 
 	protected $errors = [];
@@ -40,6 +41,11 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 		$this->domain = $domain;
 
 		$this->options = array_merge($this->options, $options);
+	}
+
+	public function getRaw()
+	{
+		return $this->responseJson;
 	}
 
 	protected function setup()
@@ -124,8 +130,15 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 
 		if ($this->options['requireUniqueLicense'])
 		{
-			$existingUsers = $this->finder('XF:User')->where('XenForoLicense.license_token', $this->license_token)
-				->fetch();
+			$existingUsersFinder = $this->finder('XF:User')
+				->where('XenForoLicense.license_token', $this->license_token);
+
+			if ($this->options['recheckUserId'])
+			{
+				$existingUsersFinder->where('user_id', '!=', $this->options['recheckUserId']);
+			}
+
+			$existingUsers = $existingUsersFinder->fetch();
 
 			if ($existingUsers->count())
 			{
@@ -137,8 +150,15 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 
 		if ($this->options['requireUniqueCustomer'])
 		{
-			$existingUsers = $this->finder('XF:User')->where('XenForoLicense.customer_token', $this->customer_token)
-				->fetch();
+			$existingUsersFinder = $this->finder('XF:User')
+				->where('XenForoLicense.customer_token', $this->license_token);
+
+			if ($this->options['recheckUserId'])
+			{
+				$existingUsersFinder->where('user_id', '!=', $this->options['recheckUserId']);
+			}
+
+			$existingUsers = $existingUsersFinder->fetch();
 
 			if ($existingUsers->count())
 			{
@@ -151,7 +171,7 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 		return true;
 	}
 
-	public function setDetailsOnUser(User $user)
+	public function setDetailsOnUser(User $user, $saveUser = false)
 	{
 		if (!$this->isValid())
 		{
@@ -160,6 +180,7 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 
 		$licenseData = $user->getRelationOrDefault('XenForoLicense');
 		$licenseData->bulkSet([
+			'validation_token' => $this->validation_token,
 			'customer_token' => $this->customer_token,
 			'license_token' => $this->license_token,
 			'can_transfer' => $this->can_transfer,
@@ -167,6 +188,11 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 			'domain_match' => $this->domain_match,
 			'check_date' => \XF::$time
 		]);
+
+		if ($saveUser)
+		{
+			$user->save();
+		}
 
 		\XF::runLater(function () use ($user)
 		{

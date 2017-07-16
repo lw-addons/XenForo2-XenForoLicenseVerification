@@ -11,9 +11,31 @@ class LicenseValidationExpiry
 		$expiredUsers = \XF::app()->finder('XF:User')->where('XenForoLicense.check_date', '<=', $validationCutoff)
 			->fetch();
 
+		$options = \XF::app()->options();
+
+		$recheck = $options->liamw_xenforolicensevalidation_auto_recheck;
+
 		/** @var \XF\Entity\User $expiredUser */
 		foreach ($expiredUsers AS $expiredUser)
 		{
+			if ($recheck && $expiredUser->XenForoLicense->validation_token)
+			{
+				/** @var \LiamW\XenForoLicenseVerification\Service\LicenseValidator $validationService */
+				$validationService = \XF::service('LiamW\XenForoLicenseVerification:LicenseValidator', $expiredUser->XenForoLicense->validation_token, $expiredUser->XenForoLicense->domain, [
+					'requireUniqueCustomer' => $options->liamw_xenforolicensevalidation_unique_customer,
+					'requireUniqueLicense' => $options->liamw_xenforolicensevalidation_unique_license,
+					'checkDomain' => $options->liamw_xenforolicensevalidation_check_domain,
+					'recheckUserId' => $expiredUser->user_id
+				]);
+
+				if ($validationService->validate()->isValid($error))
+				{
+					$validationService->setDetailsOnUser($expiredUser, true);
+
+					continue;
+				}
+			}
+
 			$expiredUser->XenForoLicense->delete();
 
 			\XF::app()->service('XF:User\UserGroupChange')

@@ -18,6 +18,11 @@ class XenForoLicenseData extends Entity
 				'type' => self::UINT,
 				'required' => true
 			],
+			'validation_token' => [
+				'type' => self::STR,
+				'maxLength' => 50,
+				'required' => true
+			],
 			'customer_token' => [
 				'type' => self::STR,
 				'maxLength' => 50,

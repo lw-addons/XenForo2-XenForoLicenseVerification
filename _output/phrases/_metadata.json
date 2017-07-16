@@ -89,6 +89,12 @@
         "version_string": "1.0.0",
         "hash": "59d483b68aa3722c2ef96fd42c7c19f3"
     },
+    "option.liamw_xenforolicensevalidation_auto_recheck.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "055843c935064d210863836f1a20b1b2"
+    },
     "option.liamw_xenforolicensevalidation_check_domain.txt": {
         "global_cache": false,
         "version_id": 1000070,
@@ -130,6 +136,12 @@
         "version_id": 1000070,
         "version_string": "1.0.0",
         "hash": "132e630fefa66eb12ea4ff0042ce78b7"
+    },
+    "option_explain.liamw_xenforolicensevalidation_auto_recheck.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "75950112aefebc849b4f3f4ad36d8b6d"
     },
     "option_explain.liamw_xenforolicensevalidation_check_domain.txt": {
         "global_cache": false,

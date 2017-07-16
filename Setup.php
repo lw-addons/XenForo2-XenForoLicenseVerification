@@ -20,6 +20,7 @@ class Setup extends AbstractSetup
 		$this->schemaManager()->createTable('xf_liamw_xenforo_license_data', function (Create $table)
 		{
 			$table->addColumn('user_id', 'int')->primaryKey();
+			$table->addColumn('validation_token', 'varchar', 50);
 			$table->addColumn('customer_token', 'varchar', 50);
 			$table->addColumn('license_token', 'varchar', 50);
 			$table->addColumn('domain', 'varchar', 255)->nullable();
