@@ -48,7 +48,7 @@ class XenForoLicenseData extends Entity
 				'type' => self::BOOL,
 				'required' => true
 			],
-			'check_date' => [
+			'validation_date' => [
 				'type' => self::UINT,
 				'default' => \XF::$time
 			]

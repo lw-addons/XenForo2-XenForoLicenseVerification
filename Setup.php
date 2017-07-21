@@ -26,7 +26,7 @@ class Setup extends AbstractSetup
 			$table->addColumn('domain', 'varchar', 255)->nullable();
 			$table->addColumn('domain_match', 'bool')->nullable();
 			$table->addColumn('can_transfer', 'bool');
-			$table->addColumn('check_date', 'int');
+			$table->addColumn('validation_date', 'int');
 		});
 	}
 
