@@ -33,12 +33,7 @@ class Account extends XFCP_Account
 		]);
 
 		/** @var \LiamW\XenForoLicenseVerification\Service\LicenseValidator $validationService */
-		$validationService = $this->service('LiamW\XenForoLicenseVerification:LicenseValidator', $input['license_validation']['token'], $input['license_validation']['domain'], [
-			'requireUniqueCustomer' => $this->app->options()->liamw_xenforolicensevalidation_unique_customer,
-			'requireUniqueLicense' => $this->app->options()->liamw_xenforolicensevalidation_unique_license,
-			'checkDomain' => $this->app()
-				->options()->liamw_xenforolicensevalidation_check_domain
-		]);
+		$validationService = $this->service('LiamW\XenForoLicenseVerification:LicenseValidator', $input['license_validation']['token'], $input['license_validation']['domain']);
 
 		if (!$validationService->validate()->isValid($error))
 		{

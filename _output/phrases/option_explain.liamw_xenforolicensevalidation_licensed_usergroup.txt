@@ -1,1 +1,1 @@
-Validated users will be added to the following user groups
+Validated users will be added to this user group.

@@ -22,12 +22,7 @@ class Registration extends XFCP_Registration
 			}
 
 			/** @var \LiamW\XenForoLicenseVerification\Service\LicenseValidator $validationService */
-			$validationService = $this->service('LiamW\XenForoLicenseVerification:LicenseValidator', $validationData['token'], $validationData['domain'], [
-				'requireUniqueCustomer' => $this->app->options()->liamw_xenforolicensevalidation_unique_customer,
-				'requireUniqueLicense' => $this->app->options()->liamw_xenforolicensevalidation_unique_license,
-				'checkDomain' => $this->app
-					->options()->liamw_xenforolicensevalidation_check_domain
-			]);
+			$validationService = $this->service('LiamW\XenForoLicenseVerification:LicenseValidator', $validationData['token'], $validationData['domain']);
 
 			if ($validationService->validate()->isValid($error))
 			{

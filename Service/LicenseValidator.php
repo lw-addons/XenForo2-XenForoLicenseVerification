@@ -7,14 +7,21 @@ use GuzzleHttp\Exception\ServerException;
 use XF\Entity\User;
 use XF\Service\AbstractService;
 
+/**
+ * @property string  validation_token
+ * @property string  customer_token
+ * @property string  license_token
+ * @property boolean can_transfer
+ * @property string  test_domain
+ * @property boolean domain_match
+ * @property boolean is_valid
+ */
 class LicenseValidator extends AbstractService implements \ArrayAccess
 {
 	const VALIDATION_URL = "https://xenforo.com/api/license-lookup.json";
 
 	protected $token;
 	protected $domain;
-
-	protected $checkDomain;
 
 	/** @var \GuzzleHttp\Client */
 	protected $httpClient;
@@ -25,9 +32,11 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 	protected $rawResponse;
 
 	protected $options = [
-		'requireUniqueCustomer' => false,
-		'requireUniqueLicense' => false,
-		'checkDomain' => true,
+		'requireUniqueCustomer' => null,
+		'requireUniqueLicense' => null,
+		'licensedUsergroup' => null,
+		'transferableUsergroup' => null,
+		'checkDomain' => null,
 		'recheckUserId' => null
 	];
 
@@ -50,8 +59,9 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 
 	protected function setup()
 	{
-		$this->checkDomain = $this->domain != null;
 		$this->httpClient = $this->app->http()->client();
+
+		$this->processOptionDefaults();
 
 		if (!$this->token || strlen($this->token) != 32 || !preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $this->token))
 		{
@@ -61,6 +71,34 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 		if ($this->options['checkDomain'] && !$this->domain)
 		{
 			$errors[] = \XF::phraseDeferred('liamw_xenforolicenseverification_invalid_domain');
+		}
+	}
+
+	protected function processOptionDefaults()
+	{
+		if ($this->options['requireUniqueCustomer'] === null)
+		{
+			$this->options['requireUniqueCustomer'] = $this->app->options()->liamw_xenforolicensevalidation_unique_customer;
+		}
+
+		if ($this->options['requireUniqueLicense'] === null)
+		{
+			$this->options['requireUniqueLicense'] = $this->app->options()->liamw_xenforolicensevalidation_unique_license;
+		}
+
+		if ($this->options['checkDomain'] === null)
+		{
+			$this->options['checkDomain'] = $this->app->options()->liamw_xenforolicensevalidation_check_domain;
+		}
+
+		if ($this->options['licensedUsergroup'] === null)
+		{
+			$this->options['licensedUsergroup'] = $this->app->options()->liamw_xenforolicensevalidation_licensed_usergroup;
+		}
+
+		if ($this->options['transferableUsergroup'] === null)
+		{
+			$this->options['transferableUsergroup'] = $this->app->options()->liamw_xenforolicensevalidation_transferable_group;
 		}
 	}
 
@@ -194,18 +232,17 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 			$user->save();
 		}
 
-		\XF::runLater(function () use ($user)
-		{
-			if (\XF::options()->liamw_xenforolicensevalidation_licensed_usergroup)
+		\XF::runLater(function () use ($user) {
+			if ($this->options['licensedUsergroup'])
 			{
 				\XF::app()->service('XF:User\UserGroupChange')
-					->addUserGroupChange($user->user_id, 'xfLicenseValid', \XF::options()->liamw_xenforolicensevalidation_licensed_usergroup);
+					->addUserGroupChange($user->user_id, 'xfLicenseValid', $this->options['licensedUsergroup']);
 			}
 
-			if (\XF::options()->liamw_xenforolicensevalidation_transferable_group && $this->can_transfer)
+			if ($this->options['transferableUsergroup'] && $this->can_transfer)
 			{
 				\XF::app()->service('XF:User\UserGroupChange')
-					->addUserGroupChange($user->user_id, 'xfLicenseTransferable', \XF::options()->liamw_xenforolicensevalidation_transferable_group);
+					->addUserGroupChange($user->user_id, 'xfLicenseTransferable', $this->options['transferableUsergroup']);
 			}
 		});
 	}
@@ -217,12 +254,12 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 
 	public function licenseValid()
 	{
-		return $this->responseJson['is_valid'];
+		return $this->is_valid;
 	}
 
 	public function domainMatches()
 	{
-		return $this->responseJson['domain_match'];
+		return $this->domain_match;
 	}
 
 	public function offsetExists($offset)
@@ -237,12 +274,12 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 
 	public function offsetSet($offset, $value)
 	{
-		throw new \BadMethodCallException("Cannot set values on the LicenseValidator");
+		throw new \BadMethodCallException("Cannot set values on LicenseValidator");
 	}
 
 	public function offsetUnset($offset)
 	{
-		throw new \BadMethodCallException("Cannot unset values on the LicenseValidator");
+		throw new \BadMethodCallException("Cannot unset values on LicenseValidator");
 	}
 
 	function __get($name)
