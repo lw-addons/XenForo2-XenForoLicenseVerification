@@ -1,0 +1,16 @@
+{
+    "edit_format": "template",
+    "edit_format_params": "liamw_xenforolicensevalidation_option_registration",
+    "data_type": "array",
+    "sub_options": [
+        "request",
+        "require"
+    ],
+    "validation_class": "",
+    "validation_method": "",
+    "default_value": "{\"request\":\"\",\"require\":\"\"}",
+    "relations": {
+        "liamw_xenforolicensevalidation": 25,
+        "usersAndRegistration": 50
+    }
+}

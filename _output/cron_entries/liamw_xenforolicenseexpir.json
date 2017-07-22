@@ -1,0 +1,17 @@
+{
+    "cron_class": "\\LiamW\\XenForoLicenseVerification\\Cron\\LicenseValidationExpiry",
+    "cron_method": "run",
+    "run_rules": {
+        "day_type": "dom",
+        "dom": [
+            "-1"
+        ],
+        "hours": [
+            "0"
+        ],
+        "minutes": [
+            "0"
+        ]
+    },
+    "active": true
+}

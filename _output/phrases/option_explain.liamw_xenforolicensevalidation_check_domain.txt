@@ -1,0 +1,1 @@
+If checked, the license domain will be requested and checked with the API. If unchecked, the license domain will not be requested.

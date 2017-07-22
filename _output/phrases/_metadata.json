@@ -1,0 +1,200 @@
+{
+    "cron_entry.liamw_xenforolicenseexpir.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "d99d33a46003c004dfaa1447b8b0f354"
+    },
+    "liamw_xenforolicensevalidation_customer_token_not_unique.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "b132dcce672c3a1f7199d925dd5c1966"
+    },
+    "liamw_xenforolicensevalidation_domain_not_match_license.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "65c68f8d41b62d758be269623db2a352"
+    },
+    "liamw_xenforolicensevalidation_license_not_found.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "893e8c3b3ceac22591472d4d2c95c85b"
+    },
+    "liamw_xenforolicensevalidation_license_token_not_unique.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "015eac1e76047b056089856d43033451"
+    },
+    "liamw_xenforolicensevalidation_validation_domain.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "801090d714c0664d3770038b9c1afed3"
+    },
+    "liamw_xenforolicensevalidation_validation_domain_explain.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "18960e8c60d941204027f3bafeba1055"
+    },
+    "liamw_xenforolicensevalidation_validation_token.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "0fa8ad13e79a7bd1fb1e90b18b61e679"
+    },
+    "liamw_xenforolicensevalidation_validation_token_explain.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "e3c59edd89a9e95aa8316b5a074000c3"
+    },
+    "liamw_xenforolicenseverification_invalid_verification_token.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "def012c423f2845a8f5088c72c39c036"
+    },
+    "liamw_xenforolicenseverification_request_during_registration.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "97af409dbb5027b9f3cb112beb295e59"
+    },
+    "liamw_xenforolicenseverification_require_during_registration.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "d03b9683a20dfd2e2f192d0c2847410d"
+    },
+    "liamw_xenforolicenseverification_verify_xenforo_license.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "f689f996bbe64b7c5a978161e7d108bc"
+    },
+    "liamw_xenforolicenseverification_your_license_has_already_been_verified.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "da3647b7a63dc7841189c62fd65081ef"
+    },
+    "liamw_xenforolicenseverification_your_xenforo_license_verification_has_lapsed.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "59d483b68aa3722c2ef96fd42c7c19f3"
+    },
+    "option.liamw_xenforolicensevalidation_auto_recheck.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "055843c935064d210863836f1a20b1b2"
+    },
+    "option.liamw_xenforolicensevalidation_check_domain.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "4fa4f3a6ac9d4efabc7ccef69bd72f04"
+    },
+    "option.liamw_xenforolicensevalidation_cutoff.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "6702f559fe8909922effc3929a671e3b"
+    },
+    "option.liamw_xenforolicensevalidation_licensed_usergroup.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "9b8cea2a61c32a7142d4af1776ee454b"
+    },
+    "option.liamw_xenforolicensevalidation_registration.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "ae8128f076fd3df3970174425664c826"
+    },
+    "option.liamw_xenforolicensevalidation_transferable_group.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "466e892d1e1a33f0cb508ba021cb480e"
+    },
+    "option.liamw_xenforolicensevalidation_unique_customer.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "850f7cfb80057ae8c333ee2aff11aad5"
+    },
+    "option.liamw_xenforolicensevalidation_unique_license.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "132e630fefa66eb12ea4ff0042ce78b7"
+    },
+    "option_explain.liamw_xenforolicensevalidation_auto_recheck.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "75950112aefebc849b4f3f4ad36d8b6d"
+    },
+    "option_explain.liamw_xenforolicensevalidation_check_domain.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "357b09db1e1bc7e6a2b224844cae9f4d"
+    },
+    "option_explain.liamw_xenforolicensevalidation_cutoff.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "a7a0cfc4f7297b902b1462946bced40c"
+    },
+    "option_explain.liamw_xenforolicensevalidation_licensed_usergroup.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "831b7785b7d44c95cacf2e9382a6c281"
+    },
+    "option_explain.liamw_xenforolicensevalidation_registration.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "option_explain.liamw_xenforolicensevalidation_transferable_group.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "d5774dcbc9d2838c5a70ce973bfc6b9e"
+    },
+    "option_explain.liamw_xenforolicensevalidation_unique_customer.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "ba1dbf4a52c881f27d0e877d4a87fb7d"
+    },
+    "option_explain.liamw_xenforolicensevalidation_unique_license.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "cee52a92e04acaeba88bc03edf9d8daf"
+    },
+    "option_group.liamw_xenforolicensevalidation.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "637f139f4f5716ce61c5ccdaaa1eb7c7"
+    },
+    "option_group_description.liamw_xenforolicensevalidation.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "d41d8cd98f00b204e9800998ecf8427e"
+    }
+}

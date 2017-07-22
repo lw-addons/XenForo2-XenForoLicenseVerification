@@ -1,0 +1,1 @@
+The XenForo customer account associated with the provided license token is associated with an existing user on this board. If you believe this shouldn't be the case, please contact us using the 'Contact us' link in the footer.

@@ -1,0 +1,1 @@
+If checked, when the validation expires the stored validation code will be rechecked to see if it is still valid rather than asking the user to revalidate themselves.
