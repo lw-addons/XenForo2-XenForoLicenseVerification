@@ -1,26 +1,26 @@
 {
-    "liamw_xenforolicensevalidation_auto_recheck.json": {
+    "liamw_xenforolicenseverification_auto_recheck.json": {
         "hash": "e6bed67d7838f2d9479e69822eb5a4f2"
     },
-    "liamw_xenforolicensevalidation_check_domain.json": {
+    "liamw_xenforolicenseverification_check_domain.json": {
         "hash": "da27ec980b74bd19a29d22668e069035"
     },
-    "liamw_xenforolicensevalidation_cutoff.json": {
+    "liamw_xenforolicenseverification_cutoff.json": {
         "hash": "3479503ff56aaffa9bbd7758ca0209d1"
     },
-    "liamw_xenforolicensevalidation_licensed_usergroup.json": {
+    "liamw_xenforolicenseverification_licensed_group.json": {
         "hash": "e8b6d5fc326dae32b1dc0f129290e157"
     },
-    "liamw_xenforolicensevalidation_registration.json": {
+    "liamw_xenforolicenseverification_registration.json": {
         "hash": "a49571c19d729bc2e8c8e6d734d3a8e0"
     },
-    "liamw_xenforolicensevalidation_transferable_group.json": {
+    "liamw_xenforolicenseverification_transfer_group.json": {
         "hash": "e8321de1984810866c246028dd24b081"
     },
-    "liamw_xenforolicensevalidation_unique_customer.json": {
+    "liamw_xenforolicenseverification_unique_customer.json": {
         "hash": "d04f07273b50e63d6739ce5ca27ee57d"
     },
-    "liamw_xenforolicensevalidation_unique_license.json": {
+    "liamw_xenforolicenseverification_unique_license.json": {
         "hash": "1bc4df14e2addf000c172ec40e8a0d07"
     }
 }

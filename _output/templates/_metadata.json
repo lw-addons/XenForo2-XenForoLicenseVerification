@@ -2,7 +2,7 @@
     "admin/liamw_xenforolicensevalidation_option_registration.html": {
         "version_id": 1000070,
         "version_string": "1.0.0",
-        "hash": "b9ab8f34fbf578f6b6ce9275afe5013f"
+        "hash": "6657a6b56306a330d8b025f68130054d"
     },
     "public/alert_user_xflicenseverification_lapsed.html": {
         "version_id": 1000070,
@@ -12,6 +12,6 @@
     "public/liamw_xenforolicenseverification_verify_license.html": {
         "version_id": 1000070,
         "version_string": "1.0.0",
-        "hash": "27583f4c2f4bc74e4b1831f044f89f66"
+        "hash": "617bc57c08413553af1184ff36792e34"
     }
 }

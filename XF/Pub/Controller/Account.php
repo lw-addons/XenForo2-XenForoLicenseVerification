@@ -20,28 +20,28 @@ class Account extends XFCP_Account
 	{
 		$this->assertPostOnly();
 
-		if (\XF::visitor()->user_state != 'valid' || \XF::visitor()->xf_customer_token)
+		if (\XF::visitor()->user_state != 'valid' || \XF::visitor()->XenForoLicense)
 		{
 			return $this->noPermission();
 		}
 
 		$input = $this->filter([
-			'license_validation' => [
+			'xenforo_license_verification' => [
 				'token' => 'str',
 				'domain' => 'str'
 			]
 		]);
 
-		/** @var \LiamW\XenForoLicenseVerification\Service\LicenseValidator $validationService */
-		$validationService = $this->service('LiamW\XenForoLicenseVerification:LicenseValidator', $input['license_validation']['token'], $input['license_validation']['domain']);
+		/** @var \LiamW\XenForoLicenseVerification\Service\XenForoLicenseVerifier $verificationService */
+		$verificationService = $this->service('LiamW\XenForoLicenseVerification:XenForoLicenseVerifier', $input['xenforo_license_verification']['token'], $input['xenforo_license_verification']['domain']);
 
-		if (!$validationService->validate()->isValid($error))
+		if (!$verificationService->validate()->isValid($error))
 		{
 			return $this->error($error);
 		}
 		else
 		{
-			$validationService->setDetailsOnUser(\XF::visitor());
+			$verificationService->setDetailsOnUser(\XF::visitor());
 			\XF::visitor()->save();
 
 			return $this->redirect($this->buildLink('account/xenforo-license'));

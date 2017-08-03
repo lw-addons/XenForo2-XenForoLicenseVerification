@@ -9,7 +9,7 @@ class Register extends XFCP_Register
 		$input = parent::getRegistrationInput($regForm);
 
 		$input += $this->filter([
-			'license_validation' => [
+			'xenforo_license_verification' => [
 				'token' => 'str',
 				'domain' => 'str'
 			]

@@ -1,0 +1,1 @@
+When checked, users license will be automatically reverified after expiration. When unchecked, users will have to manually re-verify their license.

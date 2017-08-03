@@ -22,13 +22,13 @@
 </xf:if>
 
 <xf:macro name="liamw_xenforolicense_form_fields" arg-context="!">
-    <xf:textboxrow name="license_validation[token]"
-                   label="{{ phrase('liamw_xenforolicensevalidation_validation_token') }}"
-                   explain="{{ phrase('liamw_xenforolicensevalidation_validation_token_explain') }}"
-                   hint="{{ ($context == 'registration' ? ($xf.options.liamw_xenforolicensevalidation_registration.require ? phrase('required') : phrase('optional')) : '') }}"/>
-    <xf:if is="{$xf.options.liamw_xenforolicensevalidation_check_domain}">
-        <xf:textboxrow name="license_validation[domain]"
-                       label="{{ phrase('liamw_xenforolicensevalidation_validation_domain') }}"
-                       explain="{{ phrase('liamw_xenforolicensevalidation_validation_domain_explain') }}"/>
+    <xf:textboxrow name="xenforo_license_verification[token]"
+                   label="{{ phrase('liamw_xenforolicenseverification_validation_token') }}"
+                   explain="{{ phrase('liamw_xenforolicenseverification_validation_token_explain') }}"
+                   hint="{{ ($context == 'registration' ? ($xf.options.liamw_xenforolicenseverification_registration.require ? phrase('required') : phrase('optional')) : '') }}"/>
+    <xf:if is="{$xf.options.liamw_xenforolicenseverification_check_domain}">
+        <xf:textboxrow name="xenforo_license_verification[domain]"
+                       label="{{ phrase('liamw_xenforolicenseverification_validation_domain') }}"
+                       explain="{{ phrase('liamw_xenforolicenseverification_validation_domain_explain') }}"/>
     </xf:if>
 </xf:macro>

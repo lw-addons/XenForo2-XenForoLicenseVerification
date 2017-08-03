@@ -1,0 +1,1 @@
+When this number of days has passed since verification, the verification will expire and users will be removed from the above user groups.

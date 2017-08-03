@@ -1,1 +1,0 @@
-If set to a positive number, this is the number of days a user remains licensed. After this number of days, they must re-validate their license to be re-added to the below user group.

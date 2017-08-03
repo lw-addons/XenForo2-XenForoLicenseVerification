@@ -4,29 +4,29 @@ namespace LiamW\XenForoLicenseVerification\XF\Service\User;
 
 class Registration extends XFCP_Registration
 {
-	protected function validateXenForoLicense(array $validationData)
+	protected function verifyXenForoLicense(array $verificationData)
 	{
 		parent::applyExtraValidation();
 
-		if ($this->app->options()->liamw_xenforolicensevalidation_registration['request'])
+		if ($this->app->options()->liamw_xenforolicenseverification_registration['request'])
 		{
-			if ($this->app->options()->liamw_xenforolicensevalidation_registration['require'] && !$validationData['token'])
+			if ($this->app->options()->liamw_xenforolicenseverification_registration['require'] && !$verificationData['token'])
 			{
 				$this->user->error(\XF::phrase('liamw_xenforolicenseverification_invalid_verification_token'));
 
 				return;
 			}
-			else if (!$validationData['token'])
+			else if (!$verificationData['token'])
 			{
 				return;
 			}
 
-			/** @var \LiamW\XenForoLicenseVerification\Service\LicenseValidator $validationService */
-			$validationService = $this->service('LiamW\XenForoLicenseVerification:LicenseValidator', $validationData['token'], $validationData['domain']);
+			/** @var \LiamW\XenForoLicenseVerification\Service\XenForoLicenseVerifier $verificationService */
+			$verificationService = $this->service('LiamW\XenForoLicenseVerification:XenForoLicenseVerifier', $verificationData['token'], $verificationData['domain']);
 
-			if ($validationService->validate()->isValid($error))
+			if ($verificationService->validate()->isValid($error))
 			{
-				$validationService->setDetailsOnUser($this->user);
+				$verificationService->setDetailsOnUser($this->user);
 			}
 			else
 			{
@@ -39,6 +39,6 @@ class Registration extends XFCP_Registration
 	{
 		parent::setFromInput($input);
 
-		$this->validateXenForoLicense($input['license_validation']);
+		$this->verifyXenForoLicense($input['xenforo_license_verification']);
 	}
 }

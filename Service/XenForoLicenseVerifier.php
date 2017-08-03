@@ -16,7 +16,7 @@ use XF\Service\AbstractService;
  * @property boolean domain_match
  * @property boolean is_valid
  */
-class LicenseValidator extends AbstractService implements \ArrayAccess
+class XenForoLicenseVerifier extends AbstractService implements \ArrayAccess
 {
 	const VALIDATION_URL = "https://xenforo.com/api/license-lookup.json";
 
@@ -65,12 +65,12 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 
 		if (!$this->token || strlen($this->token) != 32 || !preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $this->token))
 		{
-			$errors[] = \XF::phraseDeferred('liamw_xenforolicenseverification_invalid_verification_token');
+			$this->errors[] = \XF::phraseDeferred('liamw_xenforolicenseverification_invalid_verification_token');
 		}
 
 		if ($this->options['checkDomain'] && !$this->domain)
 		{
-			$errors[] = \XF::phraseDeferred('liamw_xenforolicenseverification_invalid_domain');
+			$this->errors[] = \XF::phraseDeferred('liamw_xenforolicenseverification_invalid_domain');
 		}
 	}
 
@@ -78,27 +78,27 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 	{
 		if ($this->options['requireUniqueCustomer'] === null)
 		{
-			$this->options['requireUniqueCustomer'] = $this->app->options()->liamw_xenforolicensevalidation_unique_customer;
+			$this->options['requireUniqueCustomer'] = $this->app->options()->liamw_xenforolicenseverification_unique_customer;
 		}
 
 		if ($this->options['requireUniqueLicense'] === null)
 		{
-			$this->options['requireUniqueLicense'] = $this->app->options()->liamw_xenforolicensevalidation_unique_license;
+			$this->options['requireUniqueLicense'] = $this->app->options()->liamw_xenforolicenseverification_unique_license;
 		}
 
 		if ($this->options['checkDomain'] === null)
 		{
-			$this->options['checkDomain'] = $this->app->options()->liamw_xenforolicensevalidation_check_domain;
+			$this->options['checkDomain'] = $this->app->options()->liamw_xenforolicenseverification_check_domain;
 		}
 
 		if ($this->options['licensedUsergroup'] === null)
 		{
-			$this->options['licensedUsergroup'] = $this->app->options()->liamw_xenforolicensevalidation_licensed_usergroup;
+			$this->options['licensedUsergroup'] = $this->app->options()->liamw_xenforolicenseverification_licensed_usergroup;
 		}
 
 		if ($this->options['transferableUsergroup'] === null)
 		{
-			$this->options['transferableUsergroup'] = $this->app->options()->liamw_xenforolicensevalidation_transferable_group;
+			$this->options['transferableUsergroup'] = $this->app->options()->liamw_xenforolicenseverification_transferable_group;
 		}
 	}
 
@@ -147,21 +147,21 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 
 		if (!$this->licenseExists())
 		{
-			$error = \XF::phraseDeferred('liamw_xenforolicensevalidation_license_not_found');
+			$error = \XF::phraseDeferred('liamw_xenforolicenseverification_license_not_found');
 
 			return false;
 		}
 
 		if (!$this->licenseValid())
 		{
-			$error = \XF::phraseDeferred('liamw_xenforolicensevalidation_license_not_valid');
+			$error = \XF::phraseDeferred('liamw_xenforolicenseverification_license_not_valid');
 
 			return false;
 		}
 
 		if ($this->options['checkDomain'] && !$this->domainMatches())
 		{
-			$error = \XF::phraseDeferred('liamw_xenforolicenseverification_invalid_domain');
+			$error = \XF::phraseDeferred('liamw_xenforolicenseverification_domain_not_match_license');
 
 			return false;
 		}
@@ -180,7 +180,7 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 
 			if ($existingUsers->count())
 			{
-				$error = \XF::phraseDeferred('liamw_xenforolicensevalidation_license_token_not_unique');
+				$error = \XF::phraseDeferred('liamw_xenforolicenseverification_license_token_not_unique');
 
 				return false;
 			}
@@ -200,7 +200,7 @@ class LicenseValidator extends AbstractService implements \ArrayAccess
 
 			if ($existingUsers->count())
 			{
-				$error = \XF::phraseDeferred('liamw_xenforolicensevalidation_customer_token_not_unique');
+				$error = \XF::phraseDeferred('liamw_xenforolicenseverification_customer_token_not_unique');
 
 				return false;
 			}

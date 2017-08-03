@@ -17,8 +17,7 @@ class Setup extends AbstractSetup
 
 	public function installStep1()
 	{
-		$this->schemaManager()->createTable('xf_liamw_xenforo_license_data', function (Create $table)
-		{
+		$this->schemaManager()->createTable('xf_liamw_xenforo_license_data', function (Create $table) {
 			$table->addColumn('user_id', 'int')->primaryKey();
 			$table->addColumn('validation_token', 'varchar', 50);
 			$table->addColumn('customer_token', 'varchar', 50);
@@ -28,6 +27,11 @@ class Setup extends AbstractSetup
 			$table->addColumn('can_transfer', 'bool');
 			$table->addColumn('validation_date', 'int');
 		});
+	}
+
+	public function upgrade2000070Step1()
+	{
+
 	}
 
 	public function uninstallStep1()

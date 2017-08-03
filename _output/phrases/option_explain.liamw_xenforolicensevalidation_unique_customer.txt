@@ -1,1 +1,0 @@
-If checked, then a user will blocked from registered if they use a token with a customer token assigned to an existing user.

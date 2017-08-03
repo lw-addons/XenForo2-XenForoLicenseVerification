@@ -1,1 +1,0 @@
-If set, users with licenses that validate as transferable will be added to this user group AS WELL AS the above user group.

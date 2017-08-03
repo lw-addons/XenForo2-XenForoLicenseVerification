@@ -15,7 +15,7 @@ class LicenseValidationExpiry extends AbstractJob
 	{
 		$startTime = microtime(true);
 
-		$validationCutoff = \XF::$time - (\XF::app()->options()->liamw_xenforolicensevalidation_cutoff * 24 * 60 * 60);
+		$validationCutoff = \XF::$time - (\XF::app()->options()->liamw_xenforolicenseverification_cutoff * 24 * 60 * 60);
 
 		$expiredUsers = \XF::app()->finder('XF:User')->where('user_id', '>', $this->data['start'])
 			->where('XenForoLicense.validation_date', '<=', $validationCutoff)
@@ -28,7 +28,7 @@ class LicenseValidationExpiry extends AbstractJob
 
 		$options = \XF::app()->options();
 
-		$recheck = $options->liamw_xenforolicensevalidation_auto_recheck;
+		$recheck = $options->liamw_xenforolicenseverification_auto_recheck;
 
 		$done = 0;
 
@@ -46,7 +46,7 @@ class LicenseValidationExpiry extends AbstractJob
 
 			if ($recheck && $expiredUser->XenForoLicense->validation_token)
 			{
-				/** @var \LiamW\XenForoLicenseVerification\Service\LicenseValidator $validationService */
+				/** @var \LiamW\XenForoLicenseVerification\Service\XenForoLicenseVerifier $validationService */
 				$validationService = \XF::service('LiamW\XenForoLicenseVerification:LicenseValidator', $expiredUser->XenForoLicense->validation_token, $expiredUser->XenForoLicense->domain, [
 					'recheckUserId' => $expiredUser->user_id
 				]);

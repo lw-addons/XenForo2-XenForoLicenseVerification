@@ -1,0 +1,1 @@
+When checked, a domain will be requested when verifying the license. This domain must match the license token provided for verification to be successful.
