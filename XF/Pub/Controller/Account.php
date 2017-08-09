@@ -20,9 +20,14 @@ class Account extends XFCP_Account
 	{
 		$this->assertPostOnly();
 
-		if (\XF::visitor()->user_state != 'valid' || \XF::visitor()->XenForoLicense)
+		if (\XF::visitor()->user_state != 'valid')
 		{
 			return $this->noPermission();
+		}
+
+		if (\XF::visitor()->XenForoLicense)
+		{
+			return $this->redirect($this->buildLink('account/xenforo-license'));
 		}
 
 		$input = $this->filter([
@@ -41,8 +46,7 @@ class Account extends XFCP_Account
 		}
 		else
 		{
-			$verificationService->setDetailsOnUser(\XF::visitor());
-			\XF::visitor()->save();
+			$verificationService->setDetailsOnUser(\XF::visitor(), true);
 
 			return $this->redirect($this->buildLink('account/xenforo-license'));
 		}

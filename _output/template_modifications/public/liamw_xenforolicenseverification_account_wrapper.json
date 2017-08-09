@@ -1,0 +1,9 @@
+{
+    "template": "account_wrapper",
+    "description": "",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "str_replace",
+    "find": "<!--[XF:settings_links:bottom]-->",
+    "replace": "<a class=\"blockLink {{ $pageSelected == 'liamw_xenforo_license' ? 'is-selected' : '' }}\" href=\"{{ link('account/xenforo-license') }}\">\n\t{{ phrase('liamw_xenforolicenseverification_verify_xenforo_license') }}\n</a>\n$0"
+}

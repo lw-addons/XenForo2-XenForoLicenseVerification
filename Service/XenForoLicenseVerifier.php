@@ -44,12 +44,12 @@ class XenForoLicenseVerifier extends AbstractService implements \ArrayAccess
 
 	public function __construct(\XF\App $app, $token, $domain = null, array $options = [])
 	{
-		parent::__construct($app);
-
 		$this->token = $token;
 		$this->domain = $domain;
 
 		$this->options = array_merge($this->options, $options);
+
+		parent::__construct($app);
 	}
 
 	public function getRaw()
@@ -64,7 +64,7 @@ class XenForoLicenseVerifier extends AbstractService implements \ArrayAccess
 		$this->processOptionDefaults();
 
 		if (!$this->token || strlen($this->token) != 32 || !preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $this->token))
-		{
+		{  
 			$this->errors[] = \XF::phraseDeferred('liamw_xenforolicenseverification_invalid_verification_token');
 		}
 
@@ -93,12 +93,12 @@ class XenForoLicenseVerifier extends AbstractService implements \ArrayAccess
 
 		if ($this->options['licensedUsergroup'] === null)
 		{
-			$this->options['licensedUsergroup'] = $this->app->options()->liamw_xenforolicenseverification_licensed_usergroup;
+			$this->options['licensedUsergroup'] = $this->app->options()->liamw_xenforolicenseverification_licensed_group;
 		}
 
 		if ($this->options['transferableUsergroup'] === null)
 		{
-			$this->options['transferableUsergroup'] = $this->app->options()->liamw_xenforolicenseverification_transferable_group;
+			$this->options['transferableUsergroup'] = $this->app->options()->liamw_xenforolicenseverification_transfer_group;
 		}
 	}
 
@@ -224,7 +224,7 @@ class XenForoLicenseVerifier extends AbstractService implements \ArrayAccess
 			'can_transfer' => $this->can_transfer,
 			'domain' => $this->test_domain,
 			'domain_match' => $this->domain_match,
-			'check_date' => \XF::$time
+			'validation_date' => \XF::$time
 		]);
 
 		if ($saveUser)

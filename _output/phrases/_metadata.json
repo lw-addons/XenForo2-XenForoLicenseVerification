@@ -5,6 +5,12 @@
         "version_string": "1.0.0",
         "hash": "d99d33a46003c004dfaa1447b8b0f354"
     },
+    "liamw_xenforolicenseverification_invalid_domain.txt": {
+        "global_cache": false,
+        "version_id": 1000070,
+        "version_string": "1.0.0",
+        "hash": "ae0b5c16dbb1b7ec587d17836bf43c10"
+    },
     "liamw_xenforolicenseverification_invalid_verification_token.txt": {
         "global_cache": false,
         "version_id": 1000070,

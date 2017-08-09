@@ -1,0 +1,9 @@
+{
+    "event_id": "user_content_change_init",
+    "execute_order": 10,
+    "callback_class": "\\LiamW\\XenForoLicenseVerification\\Listener",
+    "callback_method": "userChange",
+    "active": true,
+    "hint": "",
+    "description": ""
+}

@@ -1,5 +1,11 @@
 {
     "public/liamw_xenforolicensevalidation_register_form.json": {
         "hash": "aedac02bb26ae9558b434a65751e8b7b"
+    },
+    "public/liamw_xenforolicenseverification_account_wrapper.json": {
+        "hash": "20e30b293557dea4c2da7f95828d7799"
+    },
+    "public/liamw_xenforolicenseverification_connected_account.json": {
+        "hash": "a920a14273d5e2cc470d0decb61bdc5a"
     }
 }
