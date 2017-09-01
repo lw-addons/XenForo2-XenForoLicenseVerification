@@ -1,11 +1,11 @@
 {
     "legacy_addon_id": "liam_licensecheck",
-    "title": "XenForo License Verification",
+    "title": "XenForo license verification",
     "description": "Verify the XenForo License of board members.",
     "version_id": 3000031,
     "version_string": "3.0.0 Beta 1",
     "dev": "Liam Williams (LW Addons)",
-    "dev_url": "",
+    "dev_url": "https://lw-addons.net",
     "faq_url": "",
     "support_url": "https://lw-addons.net/addons/LiamW-XenForoLicenseVerification",
     "extra_urls": [],
