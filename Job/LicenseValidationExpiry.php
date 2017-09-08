@@ -15,7 +15,8 @@ class LicenseValidationExpiry extends AbstractJob
 	{
 		$startTime = microtime(true);
 
-		$validationCutoff = \XF::$time - (\XF::app()->options()->liamw_xenforolicenseverification_cutoff * 24 * 60 * 60);
+		$validationCutoff = \XF::$time - (\XF::app()
+					->options()->liamw_xenforolicenseverification_cutoff * 24 * 60 * 60);
 
 		$expiredUsers = \XF::app()->finder('XF:User')->where('user_id', '>', $this->data['start'])
 			->where('XenForoLicense.validation_date', '<=', $validationCutoff)
@@ -46,7 +47,7 @@ class LicenseValidationExpiry extends AbstractJob
 
 			if ($recheck && $expiredUser->XenForoLicense->validation_token)
 			{
-				/** @var \LiamW\XenForoLicenseVerification\Service\XenForoLicenseVerifier $validationService */
+				/** @var \LiamW\XenForoLicenseVerification\Service\XenForoLicense\Verifier $validationService */
 				$validationService = \XF::service('LiamW\XenForoLicenseVerification:LicenseValidator', $expiredUser->XenForoLicense->validation_token, $expiredUser->XenForoLicense->domain, [
 					'recheckUserId' => $expiredUser->user_id
 				]);
@@ -59,16 +60,8 @@ class LicenseValidationExpiry extends AbstractJob
 				}
 			}
 
-			$expiredUser->XenForoLicense->delete();
-
-			\XF::app()->service('XF:User\UserGroupChange')
-				->removeUserGroupChange($expiredUser->user_id, 'xfLicenseValid');
-			\XF::app()->service('XF:User\UserGroupChange')
-				->removeUserGroupChange($expiredUser->user_id, 'xfLicenseTransferable');
-
-			/** @var \XF\Repository\UserAlert $alertRepo */
-			$alertRepo = \XF::repository('XF:UserAlert');
-			$alertRepo->alert($expiredUser, 0, '', 'user', $expiredUser->user_id, 'xflicenseverification_lapsed');
+			\XF::repository('LiamW\XenForoLicenseVerification:XenForoLicenseValidation')
+				->expireValidation($expiredUser);
 
 			\XF::db()->commit();
 

@@ -1,0 +1,9 @@
+{
+    "template": "account_visitor_menu",
+    "description": "",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "str_replace",
+    "find": "<!--[XF:account_links:bottom]-->",
+    "replace": "<li><a href=\"{{ link('account/xenforo-license') }}\" class=\"menu-linkRow\">{{ phrase('liamw_xenforolicenseverification_verify_xenforo_license') }}</a></li>\n\n$0"
+}

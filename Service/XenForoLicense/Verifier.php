@@ -1,6 +1,6 @@
 <?php
 
-namespace LiamW\XenForoLicenseVerification\Service;
+namespace LiamW\XenForoLicenseVerification\Service\XenForoLicense;
 
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
@@ -16,7 +16,7 @@ use XF\Service\AbstractService;
  * @property boolean domain_match
  * @property boolean is_valid
  */
-class XenForoLicenseVerifier extends AbstractService implements \ArrayAccess
+class Verifier extends AbstractService implements \ArrayAccess
 {
 	const VALIDATION_URL = "https://xenforo.com/api/license-lookup.json";
 
@@ -35,6 +35,7 @@ class XenForoLicenseVerifier extends AbstractService implements \ArrayAccess
 		'requireUniqueCustomer' => null,
 		'requireUniqueLicense' => null,
 		'licensedUsergroup' => null,
+		'licensedUsergroupPrimary' => null,
 		'transferableUsergroup' => null,
 		'checkDomain' => null,
 		'recheckUserId' => null
@@ -64,7 +65,7 @@ class XenForoLicenseVerifier extends AbstractService implements \ArrayAccess
 		$this->processOptionDefaults();
 
 		if (!$this->token || strlen($this->token) != 32 || !preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $this->token))
-		{  
+		{
 			$this->errors[] = \XF::phraseDeferred('liamw_xenforolicenseverification_invalid_verification_token');
 		}
 
@@ -94,6 +95,11 @@ class XenForoLicenseVerifier extends AbstractService implements \ArrayAccess
 		if ($this->options['licensedUsergroup'] === null)
 		{
 			$this->options['licensedUsergroup'] = $this->app->options()->liamw_xenforolicenseverification_licensed_group;
+		}
+
+		if ($this->options['licensedUsergroupPrimary'] === null)
+		{
+			$this->options['licensedUsergroupPrimary'] = $this->app->options()->liamw_xenforolicenseverification_licensed_primary;
 		}
 
 		if ($this->options['transferableUsergroup'] === null)
@@ -227,13 +233,18 @@ class XenForoLicenseVerifier extends AbstractService implements \ArrayAccess
 			'validation_date' => \XF::$time
 		]);
 
+		if ($this->options['licensedUsergroup'] && $this->options['licensedUsergroupPrimary'])
+		{
+			$user->user_group_id = $this->options['licensedUsergroup'];
+		}
+
 		if ($saveUser)
 		{
 			$user->save();
 		}
 
 		\XF::runLater(function () use ($user) {
-			if ($this->options['licensedUsergroup'])
+			if ($this->options['licensedUsergroup'] && !$this->options['licensedUsergroupPrimary'])
 			{
 				\XF::app()->service('XF:User\UserGroupChange')
 					->addUserGroupChange($user->user_id, 'xfLicenseValid', $this->options['licensedUsergroup']);

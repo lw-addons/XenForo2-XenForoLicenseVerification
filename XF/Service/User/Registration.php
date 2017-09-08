@@ -6,8 +6,6 @@ class Registration extends XFCP_Registration
 {
 	protected function verifyXenForoLicense(array $verificationData)
 	{
-		parent::applyExtraValidation();
-
 		if ($this->app->options()->liamw_xenforolicenseverification_registration['request'])
 		{
 			if ($this->app->options()->liamw_xenforolicenseverification_registration['require'] && !$verificationData['token'])
@@ -21,8 +19,8 @@ class Registration extends XFCP_Registration
 				return;
 			}
 
-			/** @var \LiamW\XenForoLicenseVerification\Service\XenForoLicenseVerifier $verificationService */
-			$verificationService = $this->service('LiamW\XenForoLicenseVerification:XenForoLicenseVerifier', $verificationData['token'], $verificationData['domain']);
+			/** @var \LiamW\XenForoLicenseVerification\Service\XenForoLicense\Verifier $verificationService */
+			$verificationService = $this->service('LiamW\XenForoLicenseVerification:XenForoLicense\Verifier', $verificationData['token'], $verificationData['domain']);
 
 			if ($verificationService->validate()->isValid($error))
 			{

@@ -37,8 +37,8 @@ class Account extends XFCP_Account
 			]
 		]);
 
-		/** @var \LiamW\XenForoLicenseVerification\Service\XenForoLicenseVerifier $verificationService */
-		$verificationService = $this->service('LiamW\XenForoLicenseVerification:XenForoLicenseVerifier', $input['xenforo_license_verification']['token'], $input['xenforo_license_verification']['domain']);
+		/** @var \LiamW\XenForoLicenseVerification\Service\XenForoLicense\Verifier $verificationService */
+		$verificationService = $this->service('LiamW\XenForoLicenseVerification:XenForoLicense\Verifier', $input['xenforo_license_verification']['token'], $input['xenforo_license_verification']['domain']);
 
 		if (!$verificationService->validate()->isValid($error))
 		{
