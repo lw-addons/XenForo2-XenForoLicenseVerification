@@ -16,39 +16,61 @@ class Account extends XFCP_Account
 		return $this->addAccountWrapperParams($view, 'liamw_xenforo_license');
 	}
 
-	public function actionXenForoLicenseProcess()
+	public function actionXenForoLicenseUpdate()
 	{
-		$this->assertPostOnly();
-
 		if (\XF::visitor()->user_state != 'valid')
-		{
-			return $this->noPermission();
-		}
-
-		if (\XF::visitor()->XenForoLicense)
 		{
 			return $this->redirect($this->buildLink('account/xenforo-license'));
 		}
 
-		$input = $this->filter([
-			'xenforo_license_verification' => [
-				'token' => 'str',
-				'domain' => 'str'
-			]
-		]);
-
-		/** @var \LiamW\XenForoLicenseVerification\Service\XenForoLicense\Verifier $verificationService */
-		$verificationService = $this->service('LiamW\XenForoLicenseVerification:XenForoLicense\Verifier', $input['xenforo_license_verification']['token'], $input['xenforo_license_verification']['domain']);
-
-		if (!$verificationService->validate()->isValid($error))
+		if ($this->isPost())
 		{
-			return $this->error($error);
+			$input = $this->filter([
+				'xenforo_license_verification' => [
+					'token' => 'str',
+					'domain' => 'str'
+				]
+			]);
+
+			/** @var \LiamW\XenForoLicenseVerification\Service\XenForoLicense\Verifier $verificationService */
+			$verificationService = $this->service('LiamW\XenForoLicenseVerification:XenForoLicense\Verifier', \XF::visitor(), $input['xenforo_license_verification']['token'], $input['xenforo_license_verification']['domain']);
+
+			if ($verificationService->isValid($error))
+			{
+				$verificationService->applyLicense();
+
+				return $this->redirect($this->buildLink('account/xenforo-license'));
+			}
+			else
+			{
+				return $this->error($error);
+			}
 		}
 		else
 		{
-			$verificationService->setDetailsOnUser(\XF::visitor(), true);
+			$view = $this->view('LiamW\XenForoLicenseVerification:Account\XenForoLicense', 'liamw_xenforolicenseverification_update_license');
+
+			return $this->addAccountWrapperParams($view, 'liamw_xenforo_license');
+		}
+	}
+
+	public function actionXenForoLicenseRemove()
+	{
+		if (\XF::visitor()->user_state != 'valid' || !\XF::visitor()->XenForoLicense)
+		{
+			return $this->redirect($this->buildLink('account/xenforo-license'));
+		}
+
+		if ($this->isPost())
+		{
+			$this->repository('LiamW\XenForoLicenseVerification:XenForoLicenseValidation')
+				->expireValidation(\XF::visitor(), false);
 
 			return $this->redirect($this->buildLink('account/xenforo-license'));
+		}
+		else
+		{
+			return $this->view('LiamW\XenForoLicenseVerification:Account\XenForoLicense\Remove', 'liamw_xenforolicenseverification_remove_license');
 		}
 	}
 }

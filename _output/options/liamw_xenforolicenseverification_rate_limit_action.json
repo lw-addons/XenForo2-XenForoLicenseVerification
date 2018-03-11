@@ -1,0 +1,12 @@
+{
+    "edit_format": "radio",
+    "edit_format_params": "allow={{ phrase('liamw_xenforolicenseverification_return_valid') }}\nblock={{ phrase('block') }}",
+    "data_type": "string",
+    "sub_options": [],
+    "validation_class": "",
+    "validation_method": "",
+    "default_value": "block",
+    "relations": {
+        "liamw_xenforolicensevalidation": 100
+    }
+}

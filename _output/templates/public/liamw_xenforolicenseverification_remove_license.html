@@ -1,0 +1,14 @@
+<xf:title>{{ phrase('liamw_xenforolicenseverification_remove_xenforo_license_details') }}</xf:title>
+
+<xf:form action="{{ link('account/xenforo-license/remove') }}">
+    <div class="block-container">
+        <div class="block-body">
+            <xf:inforow>
+                <div class="blockMessage blockMessage--warning"><strong>{{ phrase('note:') }}</strong> {{
+                    phrase('liamw_xenforolicenseverification_you_may_be_unable_to_download_products') }}
+                </div>
+            </xf:inforow>
+        </div>
+        <xf:submitrow submit="{{ phrase('remove') }}" icon="delete"/>
+    </div>
+</xf:form>

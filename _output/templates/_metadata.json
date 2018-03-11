@@ -9,9 +9,19 @@
         "version_string": "1.0.0",
         "hash": "4560a145dbbf65a1c29d708f8d5fb58e"
     },
+    "public/liamw_xenforolicenseverification_remove_license.html": {
+        "version_id": 3010010,
+        "version_string": "3.1.0 Alpha",
+        "hash": "fa14dfa0f19ffe845ad8f44deab8b4da"
+    },
+    "public/liamw_xenforolicenseverification_update_license.html": {
+        "version_id": 3010010,
+        "version_string": "3.1.0 Alpha",
+        "hash": "7fa9133e97659eb9aa2145d500cba103"
+    },
     "public/liamw_xenforolicenseverification_verify_license.html": {
-        "version_id": 3000034,
-        "version_string": "3.0.0 Beta 4",
-        "hash": "89eeba2ebe5c76e33deab30e8115457b"
+        "version_id": 3010010,
+        "version_string": "3.1.0 Alpha",
+        "hash": "6fc7b1c21b4e7b10d30002cad6c6833a"
     }
 }

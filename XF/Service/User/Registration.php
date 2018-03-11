@@ -4,13 +4,16 @@ namespace LiamW\XenForoLicenseVerification\XF\Service\User;
 
 class Registration extends XFCP_Registration
 {
+	// Ugly field name, but it'll prevent clashes.
+	protected $liamw_xenforolicenseverification_xenforo_license_data;
+
 	protected function verifyXenForoLicense(array $verificationData)
 	{
 		if ($this->app->options()->liamw_xenforolicenseverification_registration['request'])
 		{
 			if ($this->app->options()->liamw_xenforolicenseverification_registration['require'] && !$verificationData['token'])
 			{
-				$this->user->error(\XF::phrase('liamw_xenforolicenseverification_invalid_verification_token'));
+				$this->user->error(\XF::phrase('liamw_xenforolicenseverification_please_enter_a_valid_xenforo_license_validation_token'));
 
 				return;
 			}
@@ -20,11 +23,11 @@ class Registration extends XFCP_Registration
 			}
 
 			/** @var \LiamW\XenForoLicenseVerification\Service\XenForoLicense\Verifier $verificationService */
-			$verificationService = $this->service('LiamW\XenForoLicenseVerification:XenForoLicense\Verifier', $verificationData['token'], $verificationData['domain']);
+			$verificationService = $this->service('LiamW\XenForoLicenseVerification:XenForoLicense\Verifier', $this->user, $verificationData['token'], $verificationData['domain']);
 
-			if ($verificationService->validate()->isValid($error))
+			if ($verificationService->isValid($error))
 			{
-				$verificationService->setDetailsOnUser($this->user);
+				$verificationService->applyLicense(false);
 			}
 			else
 			{
@@ -37,6 +40,13 @@ class Registration extends XFCP_Registration
 	{
 		parent::setFromInput($input);
 
-		$this->verifyXenForoLicense($input['xenforo_license_verification']);
+		$this->liamw_xenforolicenseverification_xenforo_license_data = $input['xenforo_license_verification'];
+	}
+
+	protected function applyExtraValidation()
+	{
+		parent::applyExtraValidation();
+
+		$this->verifyXenForoLicense($this->liamw_xenforolicenseverification_xenforo_license_data);
 	}
 }

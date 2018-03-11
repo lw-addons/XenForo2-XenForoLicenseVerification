@@ -7,7 +7,7 @@ use XF\Mvc\Entity\Repository;
 
 class XenForoLicenseValidation extends Repository
 {
-	public function expireValidation(User $expiredUser)
+	public function expireValidation(User $expiredUser, $sendAlert = true)
 	{
 		$expiredUser->XenForoLicense->delete();
 
@@ -22,8 +22,11 @@ class XenForoLicenseValidation extends Repository
 		\XF::app()->service('XF:User\UserGroupChange')
 			->removeUserGroupChange($expiredUser->user_id, 'xfLicenseTransferable');
 
-		/** @var \XF\Repository\UserAlert $alertRepo */
-		$alertRepo = \XF::repository('XF:UserAlert');
-		$alertRepo->alert($expiredUser, 0, '', 'user', $expiredUser->user_id, 'xflicenseverification_lapsed');
+		if ($sendAlert)
+		{
+			/** @var \XF\Repository\UserAlert $alertRepo */
+			$alertRepo = \XF::repository('XF:UserAlert');
+			$alertRepo->alert($expiredUser, $expiredUser->user_id, $expiredUser->username, 'user', $expiredUser->user_id, 'xflicenseverification_lapsed');
+		}
 	}
 }

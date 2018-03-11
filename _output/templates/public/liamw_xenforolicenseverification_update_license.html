@@ -1,0 +1,12 @@
+<xf:title>{{ phrase('liamw_xenforolicenseverification_update_xenforo_license') }}
+</xf:title>
+
+<xf:form action="{{ link('account/xenforo-license/update') }}" class="block" ajax="true">
+    <div class="block-container">
+        <div class="block-body">
+            <xf:macro template="liamw_xenforolicenseverification_verify_license" name="liamw_xenforolicense_form_fields" arg-context="account"/>
+
+            <xf:submitrow label="{{ phrase('apply') }}" icon="apply"/>
+        </div>
+    </div>
+</xf:form>

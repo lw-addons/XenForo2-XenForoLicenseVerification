@@ -4,87 +4,73 @@ namespace LiamW\XenForoLicenseVerification\Service\XenForoLicense;
 
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
+use LiamW\XenForoLicenseVerification\XFApi;
 use XF\Entity\User;
+use XF\Repository\Banning;
 use XF\Service\AbstractService;
 
-/**
- * @property string  validation_token
- * @property string  customer_token
- * @property string  license_token
- * @property boolean can_transfer
- * @property string  test_domain
- * @property boolean domain_match
- * @property boolean is_valid
- */
-class Verifier extends AbstractService implements \ArrayAccess
+class Verifier extends AbstractService
 {
-	const VALIDATION_URL = "https://xenforo.com/api/license-lookup.json";
-
+	/** @var XFApi */
+	protected $api;
 	protected $token;
 	protected $domain;
 
-	/** @var \GuzzleHttp\Client */
-	protected $httpClient;
-
-	protected $responseCode;
-	protected $responseJson;
-
-	protected $rawResponse;
+	protected $verifyUser;
 
 	protected $options = [
-		'requireUniqueCustomer' => null,
-		'requireUniqueLicense' => null,
-		'licensedUsergroup' => null,
-		'licensedUsergroupPrimary' => null,
-		'transferableUsergroup' => null,
-		'checkDomain' => null,
-		'recheckUserId' => null
+		'uniqueChecks' => [
+			'customer' => null,
+			'license' => null
+		],
+		'licensedUserGroup' => [
+			'id' => null,
+			'setAsPrimary' => null
+		],
+		'transferableUserGroup' => null,
+		'checkDomain' => null
 	];
 
 	protected $errors = [];
 
-	public function __construct(\XF\App $app, $token, $domain = null, array $options = [])
+	public function __construct(\XF\App $app, User $verifyUser, $token, $domain = null, array $options = [])
 	{
+		$this->options = array_merge($this->options, $options);
 		$this->token = $token;
 		$this->domain = $domain;
 
-		$this->options = array_merge($this->options, $options);
+		$this->verifyUser = $verifyUser;
 
 		parent::__construct($app);
 	}
 
-	public function getRaw()
-	{
-		return $this->responseJson;
-	}
-
 	protected function setup()
 	{
-		$this->httpClient = $this->app->http()->client();
-
 		$this->processOptionDefaults();
+
+		$this->api = new XFApi($this->app->http()->client(), $this->token, $this->domain);
 
 		if (!$this->token || strlen($this->token) != 32 || !preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $this->token))
 		{
-			$this->errors[] = \XF::phraseDeferred('liamw_xenforolicenseverification_invalid_verification_token');
+			$this->errors[] = \XF::phraseDeferred('liamw_xenforolicenseverification_please_enter_a_valid_xenforo_license_validation_token');
 		}
 
 		if ($this->options['checkDomain'] && !$this->domain)
 		{
-			$this->errors[] = \XF::phraseDeferred('liamw_xenforolicenseverification_invalid_domain');
+			$this->errors[] = \XF::phraseDeferred('liamw_xenforolicenseverification_please_enter_a_valid_xenforo_license_validation_domain');
 		}
 	}
 
 	protected function processOptionDefaults()
 	{
-		if ($this->options['requireUniqueCustomer'] === null)
+		if ($this->options['uniqueChecks']['customer'] === null)
 		{
-			$this->options['requireUniqueCustomer'] = $this->app->options()->liamw_xenforolicenseverification_unique_customer;
+			$this->options['uniqueChecks']['customer'] = $this->app->options()->liamw_xenforolicenseverification_unique_customer;
 		}
 
-		if ($this->options['requireUniqueLicense'] === null)
+		if ($this->options['uniqueChecks']['license'] === null)
 		{
-			$this->options['requireUniqueLicense'] = $this->app->options()->liamw_xenforolicenseverification_unique_license;
+			$this->options['uniqueChecks']['license'] = $this->app->options()->liamw_xenforolicenseverification_unique_license;
 		}
 
 		if ($this->options['checkDomain'] === null)
@@ -92,54 +78,20 @@ class Verifier extends AbstractService implements \ArrayAccess
 			$this->options['checkDomain'] = $this->app->options()->liamw_xenforolicenseverification_check_domain;
 		}
 
-		if ($this->options['licensedUsergroup'] === null)
+		if ($this->options['licensedUserGroup']['id'] === null)
 		{
-			$this->options['licensedUsergroup'] = $this->app->options()->liamw_xenforolicenseverification_licensed_group;
+			$this->options['licensedUserGroup']['id'] = $this->app->options()->liamw_xenforolicenseverification_licensed_group;
 		}
 
-		if ($this->options['licensedUsergroupPrimary'] === null)
+		if ($this->options['licensedUserGroup']['setAsPrimary'] === null)
 		{
-			$this->options['licensedUsergroupPrimary'] = $this->app->options()->liamw_xenforolicenseverification_licensed_primary;
+			$this->options['licensedUserGroup']['setAsPrimary'] = $this->app->options()->liamw_xenforolicenseverification_licensed_primary;
 		}
 
-		if ($this->options['transferableUsergroup'] === null)
+		if ($this->options['transferableUserGroup'] === null)
 		{
-			$this->options['transferableUsergroup'] = $this->app->options()->liamw_xenforolicenseverification_transfer_group;
+			$this->options['transferableUserGroup'] = $this->app->options()->liamw_xenforolicenseverification_transfer_group;
 		}
-	}
-
-	/**
-	 * @return $this
-	 *
-	 * @throws \GuzzleHttp\Exception\ServerException
-	 */
-	public function validate()
-	{
-		if ($this->errors)
-		{
-			return $this;
-		}
-
-		try
-		{
-			$this->rawResponse = $this->httpClient->post(self::VALIDATION_URL, [
-				'body' => [
-					'token' => $this->token,
-					'domain' => $this->domain ?: ''
-				]
-			]);
-
-			$this->responseCode = $this->rawResponse->getStatusCode();
-			$this->responseJson = $this->rawResponse->json();
-		} catch (ClientException $e)
-		{
-			$this->responseCode = $e->getCode();
-		} catch (ServerException $e)
-		{
-			$this->responseCode = $e->getCode();
-		}
-
-		return $this;
 	}
 
 	public function isValid(&$error = '')
@@ -151,40 +103,40 @@ class Verifier extends AbstractService implements \ArrayAccess
 			return false;
 		}
 
-		if (!$this->licenseExists())
+		$this->api->validate();
+
+		if ($this->api->getResponseCode() == 503 && \XF::options()->liamw_xenforolicenseverification_rate_limit_action == 'block')
 		{
-			$error = \XF::phraseDeferred('liamw_xenforolicenseverification_license_not_found');
+			$error = \XF::phraseDeferred('liamw_xenforolicenseverification_service_error_please_try_again_later');
 
 			return false;
 		}
 
-		if (!$this->licenseValid())
+		if (!$this->api->licenseExists())
 		{
-			$error = \XF::phraseDeferred('liamw_xenforolicenseverification_license_not_valid');
+			$error = \XF::phraseDeferred('liamw_xenforolicenseverification_please_enter_a_valid_xenforo_license_validation_token');
 
 			return false;
 		}
 
-		if ($this->options['checkDomain'] && !$this->domainMatches())
+		if (!$this->api->is_valid)
+		{
+			$error = \XF::phraseDeferred('liamw_xenforolicenseverification_please_enter_a_valid_xenforo_license_validation_token');
+
+			return false;
+		}
+
+		if ($this->options['checkDomain'] && !$this->api->domain_match)
 		{
 			$error = \XF::phraseDeferred('liamw_xenforolicenseverification_domain_not_match_license');
 
 			return false;
 		}
 
-		if ($this->options['requireUniqueLicense'])
+		if ($this->options['uniqueChecks']['license'])
 		{
-			$existingUsersFinder = $this->finder('XF:User')
-				->where('XenForoLicense.license_token', $this->license_token);
-
-			if ($this->options['recheckUserId'])
-			{
-				$existingUsersFinder->where('user_id', '!=', $this->options['recheckUserId']);
-			}
-
-			$existingUsers = $existingUsersFinder->fetch();
-
-			if ($existingUsers->count())
+			if ($this->finder('XF:User')->where('user_id', '!=', \XF::visitor()->user_id)
+					->where('XenForoLicense.license_token', $this->api->license_token)->total() > 0)
 			{
 				$error = \XF::phraseDeferred('liamw_xenforolicenseverification_license_token_not_unique');
 
@@ -192,19 +144,10 @@ class Verifier extends AbstractService implements \ArrayAccess
 			}
 		}
 
-		if ($this->options['requireUniqueCustomer'])
+		if ($this->options['uniqueChecks']['customer'])
 		{
-			$existingUsersFinder = $this->finder('XF:User')
-				->where('XenForoLicense.customer_token', $this->license_token);
-
-			if ($this->options['recheckUserId'])
-			{
-				$existingUsersFinder->where('user_id', '!=', $this->options['recheckUserId']);
-			}
-
-			$existingUsers = $existingUsersFinder->fetch();
-
-			if ($existingUsers->count())
+			if ($this->finder('XF:User')->where('user_id', '!=', \XF::visitor()->user_id)
+					->where('XenForoLicense.customer_token', $this->api->customer_token)->total() > 0)
 			{
 				$error = \XF::phraseDeferred('liamw_xenforolicenseverification_customer_token_not_unique');
 
@@ -215,91 +158,46 @@ class Verifier extends AbstractService implements \ArrayAccess
 		return true;
 	}
 
-	public function setDetailsOnUser(User $user, $saveUser = false)
+	public function applyLicense($save = true)
 	{
 		if (!$this->isValid())
 		{
 			throw new \BadMethodCallException("Cannot set details on user when license isn't valid.");
 		}
 
-		$licenseData = $user->getRelationOrDefault('XenForoLicense');
+		$licenseData = $this->verifyUser->getRelationOrDefault('XenForoLicense');
 		$licenseData->bulkSet([
-			'validation_token' => $this->validation_token,
-			'customer_token' => $this->customer_token,
-			'license_token' => $this->license_token,
-			'can_transfer' => $this->can_transfer,
-			'domain' => $this->test_domain,
-			'domain_match' => $this->domain_match,
+			'validation_token' => $this->api->validation_token,
+			'customer_token' => $this->api->customer_token,
+			'license_token' => $this->api->license_token,
+			'can_transfer' => $this->api->can_transfer,
+			'domain' => $this->api->test_domain,
+			'domain_match' => $this->api->domain_match,
 			'validation_date' => \XF::$time
 		]);
 
-		if ($this->options['licensedUsergroup'] && $this->options['licensedUsergroupPrimary'])
+		if ($this->options['licensedUserGroup']['setAsPrimary'] === true && $this->options['licensedUserGroup']['id'])
 		{
-			$user->user_group_id = $this->options['licensedUsergroup'];
+			$this->verifyUser->user_group_id = $this->options['licensedUserGroup']['id'];
 		}
 
-		if ($saveUser)
-		{
-			$user->save();
-		}
-
-		\XF::runLater(function () use ($user) {
-			if ($this->options['licensedUsergroup'] && !$this->options['licensedUsergroupPrimary'])
+		\XF::runLater(function () {
+			if ($this->options['licensedUserGroup']['setAsPrimary'] !== true && $this->options['licensedUserGroup']['id'])
 			{
 				\XF::app()->service('XF:User\UserGroupChange')
-					->addUserGroupChange($user->user_id, 'xfLicenseValid', $this->options['licensedUsergroup']);
+					->addUserGroupChange($this->verifyUser->user_id, 'xfLicenseValid', $this->options['licensedUserGroup']['id']);
 			}
 
-			if ($this->options['transferableUsergroup'] && $this->can_transfer)
+			if ($this->options['transferableUserGroup'] && $this->api->can_transfer)
 			{
 				\XF::app()->service('XF:User\UserGroupChange')
-					->addUserGroupChange($user->user_id, 'xfLicenseTransferable', $this->options['transferableUsergroup']);
+					->addUserGroupChange($this->verifyUser->user_id, 'xfLicenseTransferable', $this->options['transferableUserGroup']);
 			}
 		});
-	}
 
-	public function licenseExists()
-	{
-		return $this->responseCode == 200;
-	}
-
-	public function licenseValid()
-	{
-		return $this->is_valid;
-	}
-
-	public function domainMatches()
-	{
-		return $this->domain_match;
-	}
-
-	public function offsetExists($offset)
-	{
-		return $this->responseJson && isset($this->responseJson[$offset]);
-	}
-
-	public function offsetGet($offset)
-	{
-		return $this->responseJson[$offset];
-	}
-
-	public function offsetSet($offset, $value)
-	{
-		throw new \BadMethodCallException("Cannot set values on LicenseValidator");
-	}
-
-	public function offsetUnset($offset)
-	{
-		throw new \BadMethodCallException("Cannot unset values on LicenseValidator");
-	}
-
-	function __get($name)
-	{
-		return $this->offsetGet($name);
-	}
-
-	function __isset($name)
-	{
-		return $this->offsetExists($name);
+		if ($save)
+		{
+			$this->verifyUser->save();
+		}
 	}
 }

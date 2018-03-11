@@ -8,7 +8,7 @@
     ],
     "validation_class": "",
     "validation_method": "",
-    "default_value": "{\"request\":\"\",\"require\":\"\"}",
+    "default_value": "{\"request\":false,\"require\":false}",
     "relations": {
         "liamw_xenforolicensevalidation": 25,
         "usersAndRegistration": 50

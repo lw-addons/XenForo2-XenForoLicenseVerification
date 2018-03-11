@@ -7,6 +7,6 @@
     "validation_method": "",
     "default_value": "60",
     "relations": {
-        "liamw_xenforolicensevalidation": 200
+        "liamw_xenforolicensevalidation": 300
     }
 }

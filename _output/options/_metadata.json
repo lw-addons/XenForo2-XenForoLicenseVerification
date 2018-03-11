@@ -1,24 +1,30 @@
 {
     "liamw_xenforolicenseverification_auto_recheck.json": {
-        "hash": "e6bed67d7838f2d9479e69822eb5a4f2"
+        "hash": "e82510783012a328e15a039b0d400087"
     },
     "liamw_xenforolicenseverification_check_domain.json": {
         "hash": "da27ec980b74bd19a29d22668e069035"
     },
     "liamw_xenforolicenseverification_cutoff.json": {
-        "hash": "3479503ff56aaffa9bbd7758ca0209d1"
+        "hash": "fd1b8000c87a07e38c96148307e59a43"
     },
     "liamw_xenforolicenseverification_licensed_group.json": {
-        "hash": "e8b6d5fc326dae32b1dc0f129290e157"
+        "hash": "37f11b89ee17f2beae8ec64467f06f97"
     },
     "liamw_xenforolicenseverification_licensed_primary.json": {
-        "hash": "af2cf18016541ad7ed75d1995e4b7a5c"
+        "hash": "e6bed67d7838f2d9479e69822eb5a4f2"
+    },
+    "liamw_xenforolicenseverification_maintain_customer.json": {
+        "hash": "d04f07273b50e63d6739ce5ca27ee57d"
+    },
+    "liamw_xenforolicenseverification_rate_limit_action.json": {
+        "hash": "94ce92a7cf7d423aa04c8bcd55f8b13a"
     },
     "liamw_xenforolicenseverification_registration.json": {
-        "hash": "a49571c19d729bc2e8c8e6d734d3a8e0"
+        "hash": "c28d7f3f80a0a2b28aa358b0e1a4d2b8"
     },
     "liamw_xenforolicenseverification_transfer_group.json": {
-        "hash": "e8321de1984810866c246028dd24b081"
+        "hash": "2acb28a17fa9251ec7c00ecaea021e79"
     },
     "liamw_xenforolicenseverification_unique_customer.json": {
         "hash": "f3e3a33e551afa945acd361af4b4a2c9"

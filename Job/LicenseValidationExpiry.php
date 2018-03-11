@@ -27,19 +27,14 @@ class LicenseValidationExpiry extends AbstractJob
 			return $this->complete();
 		}
 
-		$options = \XF::app()->options();
-
-		$recheck = $options->liamw_xenforolicenseverification_auto_recheck;
+		$recheck = \XF::app()->options()->liamw_xenforolicenseverification_auto_recheck;
 
 		$done = 0;
 
 		/** @var \XF\Entity\User $expiredUser */
 		foreach ($expiredUsers AS $expiredUser)
 		{
-			if (microtime(true) - $startTime >= $maxRunTime)
-			{
-				break;
-			}
+			$done++;
 
 			$this->data['start'] = $expiredUser->user_id;
 
@@ -48,14 +43,11 @@ class LicenseValidationExpiry extends AbstractJob
 			if ($recheck && $expiredUser->XenForoLicense->validation_token)
 			{
 				/** @var \LiamW\XenForoLicenseVerification\Service\XenForoLicense\Verifier $validationService */
-				$validationService = \XF::service('LiamW\XenForoLicenseVerification:LicenseValidator', $expiredUser->XenForoLicense->validation_token, $expiredUser->XenForoLicense->domain, [
-					'recheckUserId' => $expiredUser->user_id
-				]);
+				$validationService = \XF::service('LiamW\XenForoLicenseVerification:XenForoLicense\Verifier', $expiredUser, $expiredUser->XenForoLicense->validation_token, $expiredUser->XenForoLicense->domain);
 
-				if ($validationService->validate()->isValid($error))
+				if ($validationService->isValid($error))
 				{
-					$validationService->setDetailsOnUser($expiredUser, true);
-
+					$validationService->applyLicense(true);
 					continue;
 				}
 			}
@@ -65,7 +57,10 @@ class LicenseValidationExpiry extends AbstractJob
 
 			\XF::db()->commit();
 
-			$done++;
+			if (microtime(true) - $startTime >= $maxRunTime)
+			{
+				break;
+			}
 		}
 
 		$this->data['batch'] = $this->calculateOptimalBatch($this->data['batch'], $done, $startTime, $maxRunTime, 1000);
@@ -75,7 +70,7 @@ class LicenseValidationExpiry extends AbstractJob
 
 	public function getStatusMessage()
 	{
-		$actionPhrase = \XF::phrase('rebuilding');
+		$actionPhrase = \XF::phrase('renewing');
 		$typePhrase = \XF::phrase('liamw_xenforolicenseverification_xenforo_license');
 
 		return sprintf('%s... %s (%s)', $actionPhrase, $typePhrase, $this->data['start']);

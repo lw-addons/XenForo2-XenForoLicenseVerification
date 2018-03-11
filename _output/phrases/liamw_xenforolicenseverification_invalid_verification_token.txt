@@ -1,1 +1,0 @@
-The validation token you entered is invalid.

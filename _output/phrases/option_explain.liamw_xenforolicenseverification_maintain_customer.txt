@@ -1,0 +1,1 @@
+If enabled, the customer token of the license validation token must match when the license is re-validated. If the customer token of the license does not match the stored value, the stored value will not be erased when the other details are.
