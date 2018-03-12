@@ -1,0 +1,9 @@
+{
+    "template": "helper_user_search_criteria",
+    "description": "",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "preg_replace",
+    "find": "/$/",
+    "replace": "<hr class=\"formRowSep\" />\n\n<xf:textboxrow label=\"{{ phrase('liamw_xenforolicenseverification_xenforo_customer_token') }}\" name=\"criteria[XenForoLicense][customer_token]\" value=\"{$criteria.XenForoLicense.customer_token}\" readonly=\"{$readOnly}\" />\n<xf:textboxrow label=\"{{ phrase('liamw_xenforolicenseverification_xenforo_license_token') }}\" name=\"criteria[XenForoLicense][license_token]\" value=\"{$criteria.XenForoLicense.license_token}\" readonly=\"{$readOnly}\" />"
+}

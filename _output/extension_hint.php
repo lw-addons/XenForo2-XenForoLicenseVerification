@@ -14,6 +14,11 @@ namespace LiamW\XenForoLicenseVerification\XF\Pub\Controller
 	class XFCP_Register extends \XF\Pub\Controller\Register {}
 }
 
+namespace LiamW\XenForoLicenseVerification\XF\Searcher
+{
+	class XFCP_User extends \XF\Searcher\User {}
+}
+
 namespace LiamW\XenForoLicenseVerification\XF\Service\User
 {
 	class XFCP_Registration extends \XF\Service\User\Registration {}

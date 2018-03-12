@@ -203,11 +203,23 @@
         "version_string": "3.0.0 Beta 1",
         "hash": "633594fd25f492210dd8e6c512b17c57"
     },
+    "liamw_xenforolicenseverification_xenforo_customer_token.txt": {
+        "global_cache": false,
+        "version_id": 3010032,
+        "version_string": "3.1.0 Beta 2",
+        "hash": "7c69fb8ad338e2c82c230488fea81091"
+    },
     "liamw_xenforolicenseverification_xenforo_license_details.txt": {
         "global_cache": false,
         "version_id": 3010010,
         "version_string": "3.1.0 Alpha",
         "hash": "cd4a6c3c5ffa4005126ded65b695e8ac"
+    },
+    "liamw_xenforolicenseverification_xenforo_license_token.txt": {
+        "global_cache": false,
+        "version_id": 3010032,
+        "version_string": "3.1.0 Beta 2",
+        "hash": "32ffc27c356c174a92ee51b2c4f92544"
     },
     "liamw_xenforolicenseverification_xf_validation_token.txt": {
         "global_cache": false,

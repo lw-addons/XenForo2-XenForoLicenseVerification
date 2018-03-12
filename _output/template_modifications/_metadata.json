@@ -2,6 +2,9 @@
     "admin/liamw_xenforolicenseverification_user_edit.json": {
         "hash": "f6c512b792a1bf16894c21a66e4978fc"
     },
+    "admin/liamw_xenforolicenseverification_user_search.json": {
+        "hash": "dc2f6d4cd766c020644e272dfdea221a"
+    },
     "public/liamw_xenforolicensevalidation_register_form.json": {
         "hash": "c7f7af987f033595ae6878b15a461798"
     },

@@ -1,0 +1,6 @@
+{
+    "from_class": "XF\\Searcher\\User",
+    "to_class": "LiamW\\XenForoLicenseVerification\\XF\\Searcher\\User",
+    "execute_order": 10,
+    "active": true
+}
