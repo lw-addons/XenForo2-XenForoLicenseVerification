@@ -1,1 +1,1 @@
-This is unique to your XenForo customer account.
+This is unique to the XenForo customer account that owned the license when validation occured.

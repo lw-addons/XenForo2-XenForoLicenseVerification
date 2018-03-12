@@ -1,0 +1,9 @@
+{
+    "template": "user_edit",
+    "description": "",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "str_replace",
+    "find": "<xf:submitrow icon=\"save\" sticky=\"true\" />",
+    "replace": "<h3 class=\"block-formSectionHeader\">\n\t<span class=\"collapseTrigger collapseTrigger--block\" data-xf-click=\"toggle\" data-target=\"< :up:next\">\n\t\t<span class=\"block-formSectionHeader-aligner\">{{ phrase('liamw_xenforolicenseverification_xenforo_license_details') }}</span>\n\t</span>\n</h3>\n<div class=\"block-body block-body--collapsible\">\n\t<xf:macro template=\"public:liamw_xenforolicenseverification_verify_license\" name=\"liamw_xenforolicense_license_detail_fields\" arg-user=\"{$user}\" arg-updateLink=\"{{ null }}\" arg-removeLink=\"{{ null }}\" />\n\t\n\t<xf:if is=\"$user.XenForoLicense\">\n\t\t<xf:checkboxrow>\n\t\t\t<xf:option name=\"liamw_xenforolicenseverification_remove_license\" value=\"1\">{{ phrase('liamw_xenforolicenseverification_remove_license_details') }}</xf:option>\n\t\t</xf:checkboxrow>\n\t</xf:if>\n</div>\n\n$0"
+}

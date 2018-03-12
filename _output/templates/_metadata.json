@@ -12,7 +12,7 @@
     "public/liamw_xenforolicenseverification_remove_license.html": {
         "version_id": 3010010,
         "version_string": "3.1.0 Alpha",
-        "hash": "fa14dfa0f19ffe845ad8f44deab8b4da"
+        "hash": "34e28bfa6f77ecfca3356359b098a76b"
     },
     "public/liamw_xenforolicenseverification_update_license.html": {
         "version_id": 3010010,
@@ -22,6 +22,6 @@
     "public/liamw_xenforolicenseverification_verify_license.html": {
         "version_id": 3010010,
         "version_string": "3.1.0 Alpha",
-        "hash": "6fc7b1c21b4e7b10d30002cad6c6833a"
+        "hash": "8a8e0a6a0ef7eb43220076a0441e39b6"
     }
 }
