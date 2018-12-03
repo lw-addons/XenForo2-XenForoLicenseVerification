@@ -85,7 +85,7 @@ class Verifier extends AbstractService
 
 		if ($this->options['licensedUserGroup']['setAsPrimary'] === null)
 		{
-			$this->options['licensedUserGroup']['setAsPrimary'] = $this->app->options()->liamw_xenforolicenseverification_licensed_primary;
+			$this->options['licensedUserGroup']['setAsPrimary'] = (bool)$this->app->options()->liamw_xenforolicenseverification_licensed_primary;
 		}
 
 		if ($this->options['transferableUserGroup'] === null)

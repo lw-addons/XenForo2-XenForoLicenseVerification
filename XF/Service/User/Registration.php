@@ -43,9 +43,9 @@ class Registration extends XFCP_Registration
 		$this->liamw_xenforolicenseverification_xenforo_license_data = $input['xenforo_license_verification'];
 	}
 
-	protected function applyExtraValidation()
+	protected function finalSetup()
 	{
-		parent::applyExtraValidation();
+		parent::finalSetup();
 
 		$this->verifyXenForoLicense($this->liamw_xenforolicenseverification_xenforo_license_data);
 	}
