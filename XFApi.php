@@ -79,7 +79,7 @@ class XFApi
 			$this->rawResponse = $this->httpClient->post(self::VALIDATION_URL, $requestOptions);
 
 			$this->responseCode = $this->rawResponse->getStatusCode();
-			$this->responseJson = json_decode($this->rawResponse->getBody(), true);
+			$this->responseJson = \json_decode($this->rawResponse->getBody(), true);
 		} catch (ClientException $e)
 		{
 			$this->responseCode = $e->getCode();
