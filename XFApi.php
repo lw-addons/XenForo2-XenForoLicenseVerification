@@ -57,15 +57,29 @@ class XFApi
 	{
 		try
 		{
-			$this->rawResponse = $this->httpClient->post(self::VALIDATION_URL, [
-				'body' => [
-					'token' => $this->token,
-					'domain' => $this->domain ?: ''
-				]
-			]);
+			if ($this->isGuzzle6())
+			{
+				$requestOptions = [
+					'form_params' => [
+						'token' => $this->token,
+						'domain' => $this->domain ?: ''
+					]
+				];
+			}
+			else
+			{
+				$requestOptions = [
+					'body' => [
+						'token' => $this->token,
+						'domain' => $this->domain ?: ''
+					]
+				];
+			}
+
+			$this->rawResponse = $this->httpClient->post(self::VALIDATION_URL, $requestOptions);
 
 			$this->responseCode = $this->rawResponse->getStatusCode();
-			$this->responseJson = $this->rawResponse->json();
+			$this->responseJson = json_decode($this->rawResponse->getBody(), true);
 		} catch (ClientException $e)
 		{
 			$this->responseCode = $e->getCode();
@@ -106,5 +120,10 @@ class XFApi
 	final public function __unset($name)
 	{
 		throw new \BadMethodCallException("Cannot unset values on LicenseValidator");
+	}
+
+	protected function isGuzzle6()
+	{
+		return version_compare(Client::VERSION, '6.0.0', '>=');
 	}
 }
