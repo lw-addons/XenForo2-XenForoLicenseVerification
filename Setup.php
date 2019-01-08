@@ -163,8 +163,13 @@ class Setup extends AbstractSetup
 
 	protected function randomiseCronTime()
 	{
+		if (\XF::app()->options()['development']['enabled'])
+		{
+			return;
+		}
+
 		/** @var CronEntry $recheckCron */
-		$recheckCron = $this->app()->find('XF:CronEntry', 'liamw_xenforolicenseexpir');
+		$recheckCron = \XF::app()->find('XF:CronEntry', 'liamw_xenforolicenseexpir');
 
 		if ($recheckCron)
 		{
