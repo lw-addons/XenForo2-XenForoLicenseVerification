@@ -4,7 +4,7 @@
     "description": "Verify the XenForo License of board members.",
     "version_id": 3020010,
     "version_string": "3.2.0 Alpha",
-    "dev": "Liam Williams (LW Addons)",
+    "dev": "Liam Williams",
     "dev_url": "https://lw-addons.net",
     "faq_url": "",
     "support_url": "https://lw-addons.net/addons/LiamW-XenForoLicenseVerification",
