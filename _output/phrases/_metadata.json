@@ -5,12 +5,6 @@
         "version_string": "1.0.0",
         "hash": "d99d33a46003c004dfaa1447b8b0f354"
     },
-    "liamw_xenforolicenseverification_confirm_you_wish_to_remove_license_details_you_may_be_unable_to_dow.txt": {
-        "global_cache": false,
-        "version_id": 3010010,
-        "version_string": "3.1.0 Alpha",
-        "hash": "534968bc3f42320646db898948ec450c"
-    },
     "liamw_xenforolicenseverification_customer_token.txt": {
         "global_cache": false,
         "version_id": 3000036,
@@ -64,12 +58,6 @@
         "version_id": 3000036,
         "version_string": "3.0.0 Beta 6",
         "hash": "cd4a6c3c5ffa4005126ded65b695e8ac"
-    },
-    "liamw_xenforolicenseverification_license_not_found.txt": {
-        "global_cache": false,
-        "version_id": 3000032,
-        "version_string": "3.0.0 Beta 2",
-        "hash": "893e8c3b3ceac22591472d4d2c95c85b"
     },
     "liamw_xenforolicenseverification_license_status.txt": {
         "global_cache": false,
@@ -133,9 +121,9 @@
     },
     "liamw_xenforolicenseverification_remove_license_details_warning.txt": {
         "global_cache": false,
-        "version_id": 3010010,
-        "version_string": "3.1.0 Alpha",
-        "hash": "120e5c540af68f8482a8beb6055c0d3e"
+        "version_id": 3010370,
+        "version_string": "3.1.3",
+        "hash": "797cdb82d6b68efbf2c2e20a66638088"
     },
     "liamw_xenforolicenseverification_remove_xenforo_license_details.txt": {
         "global_cache": false,
@@ -215,6 +203,12 @@
         "version_string": "3.1.0 Alpha",
         "hash": "cd4a6c3c5ffa4005126ded65b695e8ac"
     },
+    "liamw_xenforolicenseverification_xenforo_license_domain.txt": {
+        "global_cache": false,
+        "version_id": 3010370,
+        "version_string": "3.1.3",
+        "hash": "272749b1e625b399baf822d1ed6bee42"
+    },
     "liamw_xenforolicenseverification_xenforo_license_token.txt": {
         "global_cache": false,
         "version_id": 3010032,
@@ -241,9 +235,9 @@
     },
     "liamw_xenforolicenseverification_your_xenforo_license_verification_has_lapsed.txt": {
         "global_cache": false,
-        "version_id": 1000070,
-        "version_string": "1.0.0",
-        "hash": "59d483b68aa3722c2ef96fd42c7c19f3"
+        "version_id": 3010370,
+        "version_string": "3.1.3",
+        "hash": "d0ab11fa24bad5c869ea77a6b60a57c3"
     },
     "option.liamw_xenforolicenseverification_auto_recheck.txt": {
         "global_cache": false,

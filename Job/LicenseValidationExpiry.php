@@ -8,7 +8,7 @@ class LicenseValidationExpiry extends AbstractJob
 {
 	protected $defaultData = [
 		'start' => 0,
-		'batch' => 100
+		'batch' => 50
 	];
 
 	public function run($maxRunTime)
@@ -20,7 +20,8 @@ class LicenseValidationExpiry extends AbstractJob
 
 		$expiredUsers = \XF::app()->finder('XF:User')->where('user_id', '>', $this->data['start'])
 			->where('XenForoLicense.validation_date', '<=', $validationCutoff)
-			->fetch($this->data['batch']);
+			->order('user_id')
+			->fetch(min(max($this->data['batch'], 1), 50));
 
 		if (!$expiredUsers->count())
 		{
@@ -40,20 +41,18 @@ class LicenseValidationExpiry extends AbstractJob
 
 			\XF::db()->beginTransaction();
 
-			if ($recheck && $expiredUser->XenForoLicense->validation_token)
+			/** @var \LiamW\XenForoLicenseVerification\Service\XenForoLicense\Verifier $validationService */
+			$validationService = \XF::service('LiamW\XenForoLicenseVerification:XenForoLicense\Verifier', $expiredUser, $expiredUser->XenForoLicense->validation_token, $expiredUser->XenForoLicense->domain);
+
+			if ($recheck && $expiredUser->XenForoLicense->validation_token && $validationService->isValid())
 			{
-				/** @var \LiamW\XenForoLicenseVerification\Service\XenForoLicense\Verifier $validationService */
-				$validationService = \XF::service('LiamW\XenForoLicenseVerification:XenForoLicense\Verifier', $expiredUser, $expiredUser->XenForoLicense->validation_token, $expiredUser->XenForoLicense->domain);
-
-				if ($validationService->isValid($error))
-				{
-					$validationService->applyLicense(true);
-					continue;
-				}
+				$validationService->applyLicense(true);
 			}
-
-			\XF::repository('LiamW\XenForoLicenseVerification:XenForoLicenseValidation')
-				->expireValidation($expiredUser);
+			else
+			{
+				\XF::repository('LiamW\XenForoLicenseVerification:XenForoLicenseValidation')
+					->expireValidation($expiredUser);
+			}
 
 			\XF::db()->commit();
 
@@ -63,7 +62,7 @@ class LicenseValidationExpiry extends AbstractJob
 			}
 		}
 
-		$this->data['batch'] = $this->calculateOptimalBatch($this->data['batch'], $done, $startTime, $maxRunTime, 1000);
+		$this->data['batch'] = $this->calculateOptimalBatch($this->data['batch'], $done, $startTime, $maxRunTime, 50);
 
 		return $this->resume();
 	}
@@ -83,6 +82,6 @@ class LicenseValidationExpiry extends AbstractJob
 
 	public function canTriggerByChoice()
 	{
-		return true;
+		return false;
 	}
 }
