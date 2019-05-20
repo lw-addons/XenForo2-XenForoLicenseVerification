@@ -13,7 +13,8 @@ class Listener
 			'type' => Entity::TO_ONE,
 			'conditions' => 'user_id',
 			'primary' => true,
-			'cascadeDelete' => true
+			'cascadeDelete' => true,
+			'api' => true
 		];
 	}
 

@@ -7,6 +7,10 @@ use XF\Mvc\Entity\Structure;
 
 class XenForoLicenseData extends Entity
 {
+	protected function setupApiResultData(\XF\Api\Result\EntityResult $result, $verbosity = self::VERBOSITY_NORMAL, array $options = [])
+	{
+	}
+
 	public static function getStructure(Structure $structure)
 	{
 		$structure->shortName = 'LiamW\XenForoLicenseVerification:XenForoLicenseData';
@@ -16,41 +20,49 @@ class XenForoLicenseData extends Entity
 		$structure->columns = [
 			'user_id' => [
 				'type' => self::UINT,
-				'required' => true
+				'required' => true,
+				'api' => true
 			],
 			'validation_token' => [
 				'type' => self::STR,
 				'maxLength' => 50,
-				'required' => true
+				'required' => true,
+				'api' => true
 			],
 			'customer_token' => [
 				'type' => self::STR,
 				'maxLength' => 50,
-				'required' => true
+				'required' => true,
+				'api' => true
 			],
 			'license_token' => [
 				'type' => self::STR,
 				'maxLength' => 50,
-				'required' => true
+				'required' => true,
+				'api' => true
 			],
 			'domain' => [
 				'type' => self::STR,
 				'maxLength' => 255,
 				'required' => true,
-				'nullable' => true
+				'nullable' => true,
+				'api' => true
 			],
 			'domain_match' => [
 				'type' => self::BOOL,
 				'required' => true,
-				'nullable' => true
+				'nullable' => true,
+				'api' => true
 			],
 			'can_transfer' => [
 				'type' => self::BOOL,
-				'required' => true
+				'required' => true,
+				'api' => true
 			],
 			'validation_date' => [
 				'type' => self::UINT,
-				'default' => \XF::$time
+				'default' => \XF::$time,
+				'api' => true
 			]
 		];
 
