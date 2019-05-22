@@ -16,8 +16,6 @@ class Verifier extends AbstractService
 	protected $token;
 	protected $domain;
 
-	protected $verifyUser;
-
 	protected $options = [
 		'uniqueChecks' => [
 			'customer' => null,
@@ -33,13 +31,11 @@ class Verifier extends AbstractService
 
 	protected $errors = [];
 
-	public function __construct(\XF\App $app, User $verifyUser, $token, $domain = null, array $options = [])
+	public function __construct(\XF\App $app, $token, $domain = null, array $options = [])
 	{
 		$this->options = array_merge($this->options, $options);
 		$this->token = $token;
 		$this->domain = $domain;
-
-		$this->verifyUser = $verifyUser;
 
 		parent::__construct($app);
 	}
@@ -107,7 +103,7 @@ class Verifier extends AbstractService
 
 		if ($this->api->getResponseCode() == 503 && \XF::options()->liamw_xenforolicenseverification_rate_limit_action == 'block')
 		{
-			$error = \XF::phraseDeferred('liamw_xenforolicenseverification_service_error_please_try_again_later');
+			$error = \XF::phraseDeferred('liamw_xenforolicenseverification_error_occurred_while_attempting_to_verify_your_xenforo_license');
 
 			return false;
 		}
@@ -158,14 +154,14 @@ class Verifier extends AbstractService
 		return true;
 	}
 
-	public function applyLicense($save = true)
+	public function applyLicenseData(User $user)
 	{
 		if (!$this->isValid())
 		{
 			throw new \BadMethodCallException("Cannot set details on user when license isn't valid.");
 		}
 
-		$licenseData = $this->verifyUser->getRelationOrDefault('XenForoLicense');
+		$licenseData = $user->getRelationOrDefault('XenForoLicense');
 		$licenseData->bulkSet([
 			'validation_token' => $this->api->validation_token,
 			'customer_token' => $this->api->customer_token,
@@ -178,26 +174,19 @@ class Verifier extends AbstractService
 
 		if ($this->options['licensedUserGroup']['setAsPrimary'] === true && $this->options['licensedUserGroup']['id'])
 		{
-			$this->verifyUser->user_group_id = $this->options['licensedUserGroup']['id'];
+			$user->user_group_id = $this->options['licensedUserGroup']['id'];
 		}
 
-		\XF::runLater(function () {
-			if ($this->options['licensedUserGroup']['setAsPrimary'] !== true && $this->options['licensedUserGroup']['id'])
-			{
-				\XF::app()->service('XF:User\UserGroupChange')
-					->addUserGroupChange($this->verifyUser->user_id, 'xfLicenseValid', $this->options['licensedUserGroup']['id']);
-			}
-
-			if ($this->options['transferableUserGroup'] && $this->api->can_transfer)
-			{
-				\XF::app()->service('XF:User\UserGroupChange')
-					->addUserGroupChange($this->verifyUser->user_id, 'xfLicenseTransferable', $this->options['transferableUserGroup']);
-			}
-		});
-
-		if ($save)
+		if ($this->options['licensedUserGroup']['setAsPrimary'] !== true && $this->options['licensedUserGroup']['id'])
 		{
-			$this->verifyUser->save();
+			\XF::app()->service('XF:User\UserGroupChange')
+				->addUserGroupChange($user->user_id, 'xfLicenseValid', $this->options['licensedUserGroup']['id']);
+		}
+
+		if ($this->options['transferableUserGroup'] && $this->api->can_transfer)
+		{
+			\XF::app()->service('XF:User\UserGroupChange')
+				->addUserGroupChange($user->user_id, 'xfLicenseTransferable', $this->options['transferableUserGroup']);
 		}
 	}
 }

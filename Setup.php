@@ -19,13 +19,13 @@ class Setup extends AbstractSetup
 		$this->schemaManager()->createTable('xf_liamw_xenforo_license_data', function(Create $table)
 		{
 			$table->addColumn('user_id', 'int')->primaryKey();
-			$table->addColumn('validation_token', 'varchar', 50);
+			$table->addColumn('validation_token', 'varchar', 50)->nullable();
 			$table->addColumn('customer_token', 'varchar', 50);
-			$table->addColumn('license_token', 'varchar', 50);
+			$table->addColumn('license_token', 'varchar', 50)->nullable();
 			$table->addColumn('domain', 'varchar', 255)->nullable();
 			$table->addColumn('domain_match', 'bool')->nullable();
-			$table->addColumn('can_transfer', 'bool');
-			$table->addColumn('validation_date', 'int');
+			$table->addColumn('can_transfer', 'bool')->nullable();
+			$table->addColumn('validation_date', 'int')->nullable();
 		});
 	}
 
@@ -134,6 +134,17 @@ class Setup extends AbstractSetup
 				'xenforo_api_license_token',
 				'xenforo_api_license_valid'
 			]);
+		});
+	}
+
+	public function upgrade3020010Step1()
+	{
+		$this->alterTable('xf_liamw_xenforo_license_data', function(Alter $table)
+		{
+			$table->changeColumn('validation_token')->nullable();
+			$table->changeColumn('license_token')->nullable();
+			$table->changeColumn('can_transfer')->nullable();
+			$table->changeColumn('validation_date')->nullable();
 		});
 	}
 

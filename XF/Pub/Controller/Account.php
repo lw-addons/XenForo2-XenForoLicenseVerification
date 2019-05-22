@@ -33,11 +33,12 @@ class Account extends XFCP_Account
 			]);
 
 			/** @var \LiamW\XenForoLicenseVerification\Service\XenForoLicense\Verifier $verificationService */
-			$verificationService = $this->service('LiamW\XenForoLicenseVerification:XenForoLicense\Verifier', \XF::visitor(), $input['xenforo_license_verification']['token'], $input['xenforo_license_verification']['domain']);
+			$verificationService = $this->service('LiamW\XenForoLicenseVerification:XenForoLicense\Verifier', $input['xenforo_license_verification']['token'], $input['xenforo_license_verification']['domain']);
 
 			if ($verificationService->isValid($error))
 			{
-				$verificationService->applyLicense();
+				$verificationService->applyLicenseData(\XF::visitor());
+				\XF::visitor()->save();
 
 				return $this->redirect($this->buildLink('account/xenforo-license'));
 			}
@@ -64,7 +65,7 @@ class Account extends XFCP_Account
 		if ($this->isPost())
 		{
 			$this->repository('LiamW\XenForoLicenseVerification:XenForoLicenseValidation')
-				->expireValidation(\XF::visitor(), false);
+				->expireValidation(\XF::visitor(), false, false);
 
 			return $this->redirect($this->buildLink('account/xenforo-license'));
 		}

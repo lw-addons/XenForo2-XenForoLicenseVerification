@@ -42,11 +42,12 @@ class LicenseValidationExpiry extends AbstractJob
 			\XF::db()->beginTransaction();
 
 			/** @var \LiamW\XenForoLicenseVerification\Service\XenForoLicense\Verifier $validationService */
-			$validationService = \XF::service('LiamW\XenForoLicenseVerification:XenForoLicense\Verifier', $expiredUser, $expiredUser->XenForoLicense->validation_token, $expiredUser->XenForoLicense->domain);
+			$validationService = \XF::service('LiamW\XenForoLicenseVerification:XenForoLicense\Verifier', $expiredUser->XenForoLicense->validation_token, $expiredUser->XenForoLicense->domain);
 
 			if ($recheck && $expiredUser->XenForoLicense->validation_token && $validationService->isValid())
 			{
-				$validationService->applyLicense(true);
+				$validationService->applyLicenseData($expiredUser);
+				$expiredUser->saveIfChanged();
 			}
 			else
 			{
@@ -69,10 +70,9 @@ class LicenseValidationExpiry extends AbstractJob
 
 	public function getStatusMessage()
 	{
-		$actionPhrase = \XF::phrase('renewing');
-		$typePhrase = \XF::phrase('liamw_xenforolicenseverification_xenforo_license');
+		$actionPhrase = \XF::phrase('liamw_xenforolicenseverification_updating_xenforo_license_verifications');
 
-		return sprintf('%s... %s (%s)', $actionPhrase, $typePhrase, $this->data['start']);
+		return sprintf('%s... (%s)', $actionPhrase, $this->data['start']);
 	}
 
 	public function canCancel()

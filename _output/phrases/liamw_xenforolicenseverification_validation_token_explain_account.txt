@@ -1,1 +1,1 @@
-In order to use this site, you must own a valid license for the XenForo™ software. Please enter your XenForo license validation token to confirm your license and gain full access to to the site. You can find this in your XenForo customer area. 
+This site restricts access to certain products or features to those that hold a valid XenForo license. To verify your licensed status, please enter the license validation token for a XenForo license you hold. You can find this in your XenForo customer area.

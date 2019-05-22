@@ -3,13 +3,13 @@
 
 <xf:wrap template="account_wrapper"/>
 
-<xf:if is="{$xf.visitor.XenForoLicense}">
+<xf:if is="{$xf.visitor.XenForoLicense.validation_date}">
 	<div class="block">
 		<div class="block-container">
 			<div class="block-body">
 				<h3 class="block-header">{{ phrase('liamw_xenforolicenseverification_license_details') }}</h3>
 
-				<xf:macro name="liamw_xenforolicense_license_detail_fields" arg-user="{$xf.visitor}"
+				<xf:macro template="liamw_xenforolicenseverification_macros" name="liamw_xenforolicense_license_detail_fields" arg-user="{$xf.visitor}"
 					arg-updateLink="{{ link('account/xenforo-license/update') }}" arg-removeLink="{{ link('account/xenforo-license/remove') }}"/>
 			</div>
 		</div>
@@ -18,71 +18,10 @@
 	<xf:form action="{{ link('account/xenforo-license/update') }}" class="block" ajax="true">
 		<div class="block-container">
 			<div class="block-body">
-				<xf:macro name="liamw_xenforolicense_form_fields" arg-context="account"/>
+				<xf:macro template="liamw_xenforolicenseverification_macros" name="liamw_xenforolicense_form_fields" arg-context="account"/>
 
 				<xf:submitrow label="{{ phrase('apply') }}" icon="apply"/>
 			</div>
 		</div>
 	</xf:form>
 </xf:if>
-
-<xf:macro name="liamw_xenforolicense_license_detail_fields" arg-user="!"
-	arg-updateLink="{{ null }}" arg-removeLink="{{ null }}" arg-admin="{{ false }}">
-	<xf:formrow label="{{ phrase('liamw_xenforolicenseverification_license_status') }}"
-		rowtype="{{ $removeLink ? 'button' : null }}">
-		{{ $user.XenForoLicense ? phrase('valid') : phrase('liamw_xenforolicenseverification_not_provided') }}
-
-		<xf:if is="$user.XenForoLicense AND $removeLink">
-			<xf:button href="{$removeLink}" class="button--link" overlay="true">
-				{{ phrase('liamw_xenforolicenseverification_remove_license_details') }}
-			</xf:button>
-		</xf:if>
-	</xf:formrow>
-
-	<xf:if is="$user.XenForoLicense">
-		<xf:formrow label="{{ phrase('liamw_xenforolicenseverification_xf_validation_token') }}"
-			rowtype="{{ $updateLink ? 'button' : null }}"
-			explain="{{ phrase('liamw_xenforolicenseverification_xf_validation_token_explain') }}">
-			{$user.XenForoLicense.validation_token}
-
-			<xf:if is="{$updateLink}">
-				<xf:button href="{{ link($updateLink) }}" class="button--link" overlay="true">
-					{{ phrase('update') }}
-				</xf:button>
-			</xf:if>
-		</xf:formrow>
-
-		<xf:formrow label="{{ phrase('liamw_xenforolicenseverification_customer_token') }}"
-			explain="{{ phrase('liamw_xenforolicenseverification_customer_token_explain') }}">
-			{$user.XenForoLicense.customer_token}
-		</xf:formrow>
-
-		<xf:formrow label="{{ phrase('liamw_xenforolicenseverification_license_token') }}"
-			explain="{{ phrase('liamw_xenforolicenseverification_license_token_explain') }}">
-			{$user.XenForoLicense.license_token}
-		</xf:formrow>
-
-		<xf:formrow label="{{ phrase('liamw_xenforolicenseverification_domain') }}"
-			explain="{{ phrase('liamw_xenforolicenseverification_domain_explain') }}">
-			{$user.XenForoLicense.domain}
-		</xf:formrow>
-
-		<xf:formrow label="{{ phrase('liamw_xenforolicenseverification_last_verification_date') }}"
-			explain="{{ phrase('liamw_xenforolicenseverification_last_verification_date_explain') }}">
-			{{ date($user.XenForoLicense.validation_date) }}
-		</xf:formrow>
-	</xf:if>
-</xf:macro>
-
-<xf:macro name="liamw_xenforolicense_form_fields" arg-context="!">
-	<xf:textboxrow name="xenforo_license_verification[token]"
-		label="{{ phrase('liamw_xenforolicenseverification_validation_token') }}"
-		explain="{{ $context == 'registration' ? phrase('liamw_xenforolicenseverification_validation_token_explain') : phrase('liamw_xenforolicenseverification_validation_token_explain_account') }}"
-		hint="{{ ($context == 'registration' ? ($xf.options.liamw_xenforolicenseverification_registration.require ? phrase('required') : phrase('optional')) : phrase('required')) }}"/>
-	<xf:if is="{$xf.options.liamw_xenforolicenseverification_check_domain}">
-		<xf:textboxrow name="xenforo_license_verification[domain]"
-			label="{{ phrase('liamw_xenforolicenseverification_validation_domain') }}"
-			explain="{{ phrase('liamw_xenforolicenseverification_validation_domain_explain') }}"
-			hint="{{ ($context == 'registration' ? ($xf.options.liamw_xenforolicenseverification_registration.require ? phrase('required') : phrase('optional')) : phrase('required')) }}"/>
-	</xf:if>
-</xf:macro>

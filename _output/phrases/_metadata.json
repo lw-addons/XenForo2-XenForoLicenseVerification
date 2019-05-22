@@ -41,6 +41,12 @@
         "version_string": "3.0.0 Beta 2",
         "hash": "65c68f8d41b62d758be269623db2a352"
     },
+    "liamw_xenforolicenseverification_error_occurred_while_attempting_to_verify_your_xenforo_license.txt": {
+        "global_cache": false,
+        "version_id": 3020010,
+        "version_string": "3.2.0 Alpha",
+        "hash": "ad756639d4c84067b4bab0c151e7f372"
+    },
     "liamw_xenforolicenseverification_last_verification_date.txt": {
         "global_cache": false,
         "version_id": 3010010,
@@ -89,12 +95,6 @@
         "version_string": "3.0.0 Beta 6",
         "hash": "ddbf67b4f90eed5214a253927fe74c34"
     },
-    "liamw_xenforolicenseverification_not_provided.txt": {
-        "global_cache": false,
-        "version_id": 3010010,
-        "version_string": "3.1.0 Alpha",
-        "hash": "743616a4d15f548495df1e665c0ca97c"
-    },
     "liamw_xenforolicenseverification_please_enter_a_valid_xenforo_license_validation_domain.txt": {
         "global_cache": false,
         "version_id": 3000036,
@@ -107,11 +107,11 @@
         "version_string": "3.0.0 Beta 6",
         "hash": "7fceac6353577543fdee782a43962dbd"
     },
-    "liamw_xenforolicenseverification_remove_license.txt": {
+    "liamw_xenforolicenseverification_remove_customer_token.txt": {
         "global_cache": false,
-        "version_id": 3010010,
-        "version_string": "3.1.0 Alpha",
-        "hash": "b8c21d5302ba80b6ccd38e12ff876e7d"
+        "version_id": 3020010,
+        "version_string": "3.2.0 Alpha",
+        "hash": "e4a07b3019d183e40d058dd550d19778"
     },
     "liamw_xenforolicenseverification_remove_license_details.txt": {
         "global_cache": false,
@@ -149,11 +149,17 @@
         "version_string": "3.1.0 Alpha",
         "hash": "dcc51a29756d0e5408bd6d7c853418d2"
     },
-    "liamw_xenforolicenseverification_update_xenforo_license.txt": {
+    "liamw_xenforolicenseverification_update_xenforo_license_validation_token.txt": {
         "global_cache": false,
-        "version_id": 3000036,
-        "version_string": "3.0.0 Beta 6",
-        "hash": "1caa568e94efb7eaab34ce5489b1a546"
+        "version_id": 3020010,
+        "version_string": "3.2.0 Alpha",
+        "hash": "f71eefbb3484ad8543a9a47b5f8bc1e8"
+    },
+    "liamw_xenforolicenseverification_updating_xenforo_license_verifications.txt": {
+        "global_cache": false,
+        "version_id": 3020010,
+        "version_string": "3.2.0 Alpha",
+        "hash": "a8d6da90b052c3e1b8a137f2c5d17084"
     },
     "liamw_xenforolicenseverification_validation_domain.txt": {
         "global_cache": false,
@@ -167,29 +173,17 @@
         "version_string": "3.0.0 Beta 2",
         "hash": "18960e8c60d941204027f3bafeba1055"
     },
-    "liamw_xenforolicenseverification_validation_token.txt": {
-        "global_cache": false,
-        "version_id": 3000031,
-        "version_string": "3.0.0 Beta 1",
-        "hash": "32ffc27c356c174a92ee51b2c4f92544"
-    },
     "liamw_xenforolicenseverification_validation_token_explain.txt": {
         "global_cache": false,
-        "version_id": 3000032,
-        "version_string": "3.0.0 Beta 2",
-        "hash": "e3c59edd89a9e95aa8316b5a074000c3"
+        "version_id": 3020010,
+        "version_string": "3.2.0 Alpha",
+        "hash": "e78c826bcbababeb6d6693b3b36801d9"
     },
     "liamw_xenforolicenseverification_validation_token_explain_account.txt": {
         "global_cache": false,
-        "version_id": 3010010,
-        "version_string": "3.1.0 Alpha",
-        "hash": "f5a359ca29c6a07c7f23972c2556eb3e"
-    },
-    "liamw_xenforolicenseverification_verify_xenforo_license.txt": {
-        "global_cache": false,
-        "version_id": 3000031,
-        "version_string": "3.0.0 Beta 1",
-        "hash": "633594fd25f492210dd8e6c512b17c57"
+        "version_id": 3020010,
+        "version_string": "3.2.0 Alpha",
+        "hash": "cf545c8acbe1b4cda5b9b51b8adc3889"
     },
     "liamw_xenforolicenseverification_xenforo_customer_token.txt": {
         "global_cache": false,
@@ -209,11 +203,23 @@
         "version_string": "3.1.3",
         "hash": "272749b1e625b399baf822d1ed6bee42"
     },
+    "liamw_xenforolicenseverification_xenforo_license_not_verified.txt": {
+        "global_cache": false,
+        "version_id": 3020010,
+        "version_string": "3.2.0 Alpha",
+        "hash": "071ad48d83c064c013b03be05a24cd9a"
+    },
     "liamw_xenforolicenseverification_xenforo_license_token.txt": {
         "global_cache": false,
         "version_id": 3010032,
         "version_string": "3.1.0 Beta 2",
         "hash": "32ffc27c356c174a92ee51b2c4f92544"
+    },
+    "liamw_xenforolicenseverification_xenforo_license_validation_token.txt": {
+        "global_cache": false,
+        "version_id": 3020010,
+        "version_string": "3.2.0 Alpha",
+        "hash": "77db112410719f1effa04bc517d7a1c5"
     },
     "liamw_xenforolicenseverification_xf_validation_token.txt": {
         "global_cache": false,
@@ -226,12 +232,6 @@
         "version_id": 3010010,
         "version_string": "3.1.0 Alpha",
         "hash": "1ef76e134e321f862f7ef80ee5bc5d17"
-    },
-    "liamw_xenforolicenseverification_your_license_has_already_been_verified.txt": {
-        "global_cache": false,
-        "version_id": 1000070,
-        "version_string": "1.0.0",
-        "hash": "da3647b7a63dc7841189c62fd65081ef"
     },
     "liamw_xenforolicenseverification_your_xenforo_license_verification_has_lapsed.txt": {
         "global_cache": false,

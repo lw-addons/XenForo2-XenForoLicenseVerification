@@ -1,1 +1,1 @@
-In order to register here, you must own a valid XenForo license. Please enter the validation token for the license you wish to use here. This can be found in your XenForo customer area.
+This site requires that you hold a valid XenForo license to create an account. Please enter a validation token for a XenForo license you hold. This can be found in your XenForo customer area.
