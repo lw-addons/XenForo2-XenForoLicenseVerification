@@ -7,8 +7,15 @@
     "dev": "Liam Williams",
     "dev_url": "https://lw-addons.net",
     "faq_url": "",
-    "support_url": "https://lw-addons.net/addons/LiamW-XenForoLicenseVerification",
-    "extra_urls": [],
-    "require": [],
+    "support_url": "https://xenforo.com/community/threads/xenforo-license-verification.132213/",
+    "extra_urls": {
+        "Contribute on GitHub": "https://github.com/lw-addons/XenForo2-XenForoLicenseVerification"
+    },
+    "require": {
+        "XF": [
+            2010070,
+            "XenForo 2.1.0 or above"
+        ]
+    },
     "icon": "liam_logo.png"
 }
