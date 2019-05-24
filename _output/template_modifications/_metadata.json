@@ -1,12 +1,12 @@
 {
     "admin/liamw_xenforolicenseverification_user_edit.json": {
-        "hash": "b872b19a4f27523fab0e2f9c4e3a4b58"
+        "hash": "58342abe17bc1a4242e230548148a6fe"
     },
     "admin/liamw_xenforolicenseverification_user_search.json": {
         "hash": "cdc9d0d8d6561d441be3c1fa4656f70d"
     },
     "public/liamw_xenforolicensevalidation_register_form.json": {
-        "hash": "f196e6ca757a34a0c4ccb83fcc63071d"
+        "hash": "42c62c15fa743438b905437a63ac0845"
     },
     "public/liamw_xenforolicenseverification_account_visitor_m.json": {
         "hash": "451ea894109f3ae94af54d666c30b3c5"
@@ -15,6 +15,6 @@
         "hash": "961fcd0dfa9e0ba95cd3038950e3d985"
     },
     "public/liamw_xenforolicenseverification_connected_account.json": {
-        "hash": "553b401c9aca9da5513090eaa725f53a"
+        "hash": "aea47042567d8037c43d5fd0666173e9"
     }
 }

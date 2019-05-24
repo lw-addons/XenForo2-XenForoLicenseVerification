@@ -1,5 +1,6 @@
 {
   "exec": [
-    "mv _build/upload/src/addons/LiamW/XenForoLicenseVerification/LICENSE _build/"
+    "mv _build/upload/src/addons/LiamW/XenForoLicenseVerification/LICENSE _build/",
+    "php ../../../../cmd.php xf-dev:generate-api-docs --target src/addons/LiamW/XenForoLicenseVerification/_build/api-docs.html --force LiamW/XenForoLicenseVerification"
   ]
 }

@@ -1,0 +1,1 @@
+This is a token that is unique to a XenForo license. It doesn't change for a specific license, and can be used to track license transfers.

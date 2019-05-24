@@ -1,1 +1,1 @@
-This is unique to the XenForo license associated with the provided validation token, and does not change if the license is transfered to another customer.
+This is a token that is unique to the license of the validation token you used.

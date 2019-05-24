@@ -8,11 +8,6 @@ namespace LiamW\XenForoLicenseVerification\XF\Admin\Controller
 	class XFCP_User extends \XF\Admin\Controller\User {}
 }
 
-namespace LiamW\XenForoLicenseVerification\XF\Api\Controller
-{
-	class XFCP_User extends \XF\Api\Controller\User {}
-}
-
 namespace LiamW\XenForoLicenseVerification\XF\Pub\Controller
 {
 	class XFCP_Account extends \XF\Pub\Controller\Account {}

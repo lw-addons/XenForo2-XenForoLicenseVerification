@@ -19,10 +19,6 @@ use XF\Mvc\Entity\Structure;
  */
 class XenForoLicenseData extends Entity
 {
-	protected function setupApiResultData(\XF\Api\Result\EntityResult $result, $verbosity = self::VERBOSITY_NORMAL, array $options = [])
-	{
-	}
-
 	public function deleteLicenseData($removeCustomerToken = false)
 	{
 		if (!\XF::options()->liamw_xenforolicenseverification_maintain_customer || $removeCustomerToken)
@@ -101,5 +97,26 @@ class XenForoLicenseData extends Entity
 		];
 
 		return $structure;
+	}
+
+	/**
+	 * @param \XF\Api\Result\EntityResult $result
+	 * @param int $verbosity
+	 * @param array $options
+	 *
+	 * @api-type XenForoLicense
+	 *
+	 * @api-desc Information about a user's XenForo license.
+	 *
+	 * @api-out str $validation_token
+	 * @api-out str $customer_token
+	 * @api-out str $license_token
+	 * @api-out str $domain
+	 * @api-out bool $domain_match
+	 * @api-out bool $can_transfer
+	 * @api-out uint $validation_date
+	 */
+	protected function setupApiResultData(\XF\Api\Result\EntityResult $result, $verbosity = self::VERBOSITY_NORMAL, array $options = [])
+	{
 	}
 }

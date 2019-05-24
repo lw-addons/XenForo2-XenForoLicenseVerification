@@ -1,0 +1,1 @@
+This is a token that is unique to a XenForo customer account. It doesn't change when the validation token changes, but will change if a license is transferred.

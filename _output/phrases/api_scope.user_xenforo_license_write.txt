@@ -1,0 +1,1 @@
+Covers updating/removing XenForo license data

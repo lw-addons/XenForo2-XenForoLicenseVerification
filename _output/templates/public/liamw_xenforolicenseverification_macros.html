@@ -1,5 +1,6 @@
 <xf:macro name="liamw_xenforolicense_license_detail_fields" arg-user="!"
-	arg-updateLink="{{ null }}" arg-removeLink="{{ null }}" arg-admin="{{ false }}">
+	arg-updateLink="{{ null }}" arg-removeLink="{{ null }}" arg-context="account">
+
 	<xf:formrow label="{{ phrase('liamw_xenforolicenseverification_license_status') }}"
 		rowtype="{{ $removeLink ? 'button' : null }}">
 		{{ $user.XenForoLicense.validation_date ? phrase('valid') :
@@ -13,25 +14,43 @@
 	</xf:formrow>
 
 	<xf:if is="$user.XenForoLicense.validation_date">
-		<xf:formrow label="{{ phrase('liamw_xenforolicenseverification_xf_validation_token') }}"
+		<xf:if is="$context == 'account'">
+			<xf:set var="$validationTokenExplain">{{ phrase('liamw_xenforolicenseverification_validation_token_explain_value') }}</xf:set>
+		<xf:elseif is="$context == 'admin'"/>
+			<xf:set var="$validationTokenExplain">{{ phrase('liamw_xenforolicenseverification_validation_token_explain_value_admin') }}</xf:set>
+		</xf:if>
+
+		<xf:formrow label="{{ phrase('liamw_xenforolicenseverification_xenforo_license_validation_token') }}"
 			rowtype="{{ $updateLink ? 'button' : null }}"
-			explain="{{ phrase('liamw_xenforolicenseverification_xf_validation_token_explain') }}">
+			explain="{$validationTokenExplain}">
 			{$user.XenForoLicense.validation_token}
 
-			<xf:if is="{$updateLink}">
+			<xf:if is="$updateLink">
 				<xf:button href="{{ link($updateLink) }}" class="button--link" overlay="true">
 					{{ phrase('update') }}
 				</xf:button>
 			</xf:if>
 		</xf:formrow>
 
+		<xf:if is="$context == 'account'">
+			<xf:set var="$customerTokenExplain">{{ phrase('liamw_xenforolicenseverification_customer_token_explain') }}</xf:set>
+		<xf:elseif is="$context == 'admin'"/>
+			<xf:set var="$customerTokenExplain">{{ phrase('liamw_xenforolicenseverification_customer_token_explain_admin') }}</xf:set>
+		</xf:if>
+
 		<xf:formrow label="{{ phrase('liamw_xenforolicenseverification_customer_token') }}"
-			explain="{{ phrase('liamw_xenforolicenseverification_customer_token_explain') }}">
+			explain="{$customerTokenExplain}">
 			{$user.XenForoLicense.customer_token}
 		</xf:formrow>
 
+		<xf:if is="$context == 'account'">
+			<xf:set var="$licenseTokenExplain">{{ phrase('liamw_xenforolicenseverification_license_token_explain') }}</xf:set>
+		<xf:elseif is="$context == 'admin'"/>
+			<xf:set var="$licenseTokenExplain">{{ phrase('liamw_xenforolicenseverification_license_token_explain_admin') }}</xf:set>
+		</xf:if>
+
 		<xf:formrow label="{{ phrase('liamw_xenforolicenseverification_license_token') }}"
-			explain="{{ phrase('liamw_xenforolicenseverification_license_token_explain') }}">
+			explain="{$licenseTokenExplain}">
 			{$user.XenForoLicense.license_token}
 		</xf:formrow>
 
@@ -40,13 +59,12 @@
 			{$user.XenForoLicense.domain}
 		</xf:formrow>
 
-		<xf:formrow label="{{ phrase('liamw_xenforolicenseverification_last_verification_date') }}"
-			explain="{{ phrase('liamw_xenforolicenseverification_last_verification_date_explain') }}">
+		<xf:formrow label="{{ phrase('liamw_xenforolicenseverification_last_verification_date') }}">
 			{{ date($user.XenForoLicense.validation_date) }}
 		</xf:formrow>
-		<xf:elseif is="$user.XenForoLicense.customer_token"/>
+	<xf:elseif is="$user.XenForoLicense.customer_token && $context == 'admin'"/>
 		<xf:formrow label="{{ phrase('liamw_xenforolicenseverification_customer_token') }}"
-			explain="{{ phrase('liamw_xenforolicenseverification_customer_token_explain') }}">
+			explain="{{ phrase('liamw_xenforolicenseverification_customer_token_explain_admin') }}">
 			{$user.XenForoLicense.customer_token}
 		</xf:formrow>
 	</xf:if>
@@ -54,20 +72,13 @@
 
 <xf:macro name="liamw_xenforolicense_form_fields" arg-context="!">
 	<xf:if is="$context == 'registration'">
-		<xf:set var="$tokenExplain" value="{{ phrase('liamw_xenforolicenseverification_validation_token_explain') }}"/>
+		<xf:set var="$tokenExplain" value="{{ phrase('liamw_xenforolicenseverification_validation_token_explain_input_registration') }}"/>
 		<xf:set var="$tokenHint"
-			value="{{ $xf.options.liamw_xenforolicenseverification_registration.require ? phrase('required') : phrase('optional') }}"/>
+			value="{{ $xf.options.liamw_xenforolicenseverification_registration.require ? phrase('required') : '' }}"/>
 	<xf:elseif is="$context == 'account' || $context == 'update'"/>
 		<xf:set var="$tokenExplain"
-			value="{{ phrase('liamw_xenforolicenseverification_validation_token_explain_account') }}"/>
+			value="{{ phrase('liamw_xenforolicenseverification_validation_token_explain_input_account') }}"/>
 		<xf:set var="$tokenHint" value="{{ phrase('required') }}"/>
-	</xf:if>
-
-	<xf:if is="$context == 'registration'">
-		<xf:set var="$domainHint"
-			value="{{ $xf.options.liamw_xenforolicenseverification_registration.require ? phrase('required') : phrase('optional') }}"/>
-	<xf:elseif is="$context == 'account' || $context == 'update'"/>
-		<xf:set var="$domainHint" value="{{ phrase('required') }}"/>
 	</xf:if>
 
 	<xf:textboxrow name="xenforo_license_verification[token]"
@@ -76,6 +87,13 @@
 		hint="{$tokenHint}"/>
 
 	<xf:if is="{$xf.options.liamw_xenforolicenseverification_check_domain}">
+		<xf:if is="$context == 'registration'">
+			<xf:set var="$domainHint"
+				value="{{ $xf.options.liamw_xenforolicenseverification_registration.require ? phrase('required') : '' }}"/>
+		<xf:elseif is="$context == 'account' || $context == 'update'"/>
+			<xf:set var="$domainHint" value="{{ phrase('required') }}"/>
+		</xf:if>
+
 		<xf:textboxrow name="xenforo_license_verification[domain]"
 			label="{{ phrase('liamw_xenforolicenseverification_validation_domain') }}"
 			explain="{{ phrase('liamw_xenforolicenseverification_validation_domain_explain') }}"
