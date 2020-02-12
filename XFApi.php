@@ -17,7 +17,7 @@ use GuzzleHttp\Exception\ServerException;
  */
 class XFApi
 {
-	const VALIDATION_URL = "https://xenforo.com/api/license-lookup.json";
+	const VALIDATION_URL = "https://xenforo.com/customer-api/license-lookup.json";
 
 	protected $httpClient;
 	protected $rawResponse;
