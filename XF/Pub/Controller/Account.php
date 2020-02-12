@@ -37,8 +37,9 @@ class Account extends XFCP_Account
 
 			if ($verificationService->isValid($error))
 			{
-				$verificationService->applyLicenseData(\XF::visitor());
-				\XF::visitor()->save();
+				$user = \XF::visitor();
+				$verificationService->applyLicenseData($user);
+				$user->save();
 
 				return $this->redirect($this->buildLink('account/xenforo-license'));
 			}
@@ -64,8 +65,7 @@ class Account extends XFCP_Account
 
 		if ($this->isPost())
 		{
-			$this->repository('LiamW\XenForoLicenseVerification:XenForoLicenseValidation')
-				->expireValidation(\XF::visitor(), false, false);
+			$this->repository('LiamW\XenForoLicenseVerification:XenForoLicenseValidation')->expireValidation(\XF::visitor(), false, false);
 
 			return $this->redirect($this->buildLink('account/xenforo-license'));
 		}

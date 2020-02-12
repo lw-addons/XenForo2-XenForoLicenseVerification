@@ -2,8 +2,8 @@
     "legacy_addon_id": "liam_licensecheck",
     "title": "XenForo License Verification",
     "description": "Verify the XenForo License of board members.",
-    "version_id": 3020032,
-    "version_string": "3.2.0 Beta 2",
+    "version_id": 3020070,
+    "version_string": "3.2.0",
     "dev": "Liam Williams",
     "dev_url": "https://lw-addons.net",
     "faq_url": "",
@@ -17,5 +17,5 @@
             "XenForo 2.1.0 or above"
         ]
     },
-    "icon": "liam_logo.png"
+    "icon": "logo.png"
 }

@@ -40,6 +40,7 @@ class XenForoLicenseData extends Entity
 	public static function getStructure(Structure $structure)
 	{
 		$structure->shortName = 'LiamW\XenForoLicenseVerification:XenForoLicenseData';
+
 		$structure->table = 'xf_liamw_xenforo_license_data';
 		$structure->primaryKey = 'user_id';
 
@@ -80,7 +81,8 @@ class XenForoLicenseData extends Entity
 				'type' => self::BOOL,
 				'required' => true,
 				'nullable' => true,
-				'api' => true
+				'api' => true,
+				'changeLog' => false
 			],
 			'can_transfer' => [
 				'type' => self::BOOL,
@@ -93,6 +95,12 @@ class XenForoLicenseData extends Entity
 				'default' => \XF::$time,
 				'nullable' => true,
 				'api' => true
+			]
+		];
+		$structure->behaviors = [
+			'XF:ChangeLoggable' => [
+				'contentType' => 'user',
+				'contentIdColumn' => 'user_id'
 			]
 		];
 

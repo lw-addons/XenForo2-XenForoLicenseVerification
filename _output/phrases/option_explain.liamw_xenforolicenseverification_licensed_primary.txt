@@ -1,1 +1,1 @@
-If checked, the above user group will be made the users' primary usergroup on validation rather than adding it as a secondary group. This is an advanced usage, so only enable it if you know what you're doing.
+If checked, the above user group will be made the users' primary usergroup on validation rather than adding it as a secondary group. <strong>This is an advanced option, enable it only if you know what you're doing.</strong>

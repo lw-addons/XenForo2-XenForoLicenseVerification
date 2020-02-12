@@ -26,7 +26,7 @@
 			{$user.XenForoLicense.validation_token}
 
 			<xf:if is="$updateLink">
-				<xf:button href="{{ link($updateLink) }}" class="button--link" overlay="true">
+				<xf:button href="{$updateLink}" class="button--link" overlay="true">
 					{{ phrase('update') }}
 				</xf:button>
 			</xf:if>
@@ -94,7 +94,7 @@
 			<xf:set var="$domainHint" value="{{ phrase('required') }}"/>
 		</xf:if>
 
-		<xf:textboxrow name="xenforo_license_verification[domain]"
+		<xf:textboxrow type="url" name="xenforo_license_verification[domain]"
 			label="{{ phrase('liamw_xenforolicenseverification_validation_domain') }}"
 			explain="{{ phrase('liamw_xenforolicenseverification_validation_domain_explain') }}"
 			hint="{$domainHint}"/>

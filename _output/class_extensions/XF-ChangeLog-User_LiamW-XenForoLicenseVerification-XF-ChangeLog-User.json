@@ -1,0 +1,6 @@
+{
+    "from_class": "XF\\ChangeLog\\User",
+    "to_class": "LiamW\\XenForoLicenseVerification\\XF\\ChangeLog\\User",
+    "execute_order": 10,
+    "active": true
+}
